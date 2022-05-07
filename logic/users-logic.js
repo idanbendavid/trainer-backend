@@ -80,20 +80,20 @@ async function addNewUser(newUser) {
 
     if (registerUser) {
         // if the registraition was completed
-        if (newUser.user_role === userRole[2]) {
+        if (newUser.userRole === userRole[2]) {
             // and if the role of the user is coach
             let coachId = uuid.v4();
             // create a uuid based coach id
-            newCoach = await coachDao.addCoach(coachId, registerUser.insertId, newUser.first_name, newUser.last_name);
+            newCoach = await coachDao.addCoach(coachId, registerUser.insertId, newUser.firstName, newUser.lastName);
             // and add him to coaches table
         }
     }
 
     let tokenDetails = {
         userId: registerUser.insertId,
-        firstName: newUser.first_name,
-        birthDate: newUser.birth_date,
-        userRole: newUser.user_role
+        firstName: newUser.firstName,
+        birthDate: newUser.birthDate,
+        userRole: newUser.userRole
     }
 
     let token = jwtToken.createToken(tokenDetails);

@@ -72,8 +72,8 @@ async function login(user) {
 async function addNewUser(newUser) {
     let sql = "INSERT INTO users (first_name,last_name,birth_date,user_role,email,password) VALUES(?,?,?,?,?,?)";
 
-    let parameters = [newUser.first_name, newUser.last_name, newUser.birth_date,
-    newUser.user_role, newUser.email, newUser.password];
+    let parameters = [newUser.firstName, newUser.lastName, newUser.birthDate,
+    newUser.userRole, newUser.email, newUser.password];
 
     let createUser;
 

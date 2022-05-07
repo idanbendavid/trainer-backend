@@ -66,7 +66,7 @@ router.post("/login", async (request, response, next) => {
 router.post("/register", async (request, response, next) => {
 
     let newUser = request.body;
-
+    
     try {
         let registerUser = await usersLogic.addNewUser(newUser);
         response.json(registerUser);

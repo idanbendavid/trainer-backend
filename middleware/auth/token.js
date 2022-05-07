@@ -15,14 +15,12 @@ function createToken(user) {
         birthDate: user.birthDate,
         role: user.userRole
     };
-
     let token = "Bearer " + jwt.sign(payload, config.secret);
 
     return token;
 }
 
 function decodeToken(token) {
-
     if (!token) {
         throw new ServerError(ErrorType.UNAUTHORIZED)
     }
