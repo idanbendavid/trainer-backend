@@ -5,9 +5,10 @@ const nodemailer = require("nodemailer");
 
 // get
 async function getUsers() {
-    let sql = `SELECT u.user_id, u.first_name, u.last_name, u.birth_date, u.user_role, u.email, c.coach_id
+    let sql = `SELECT u.id, u.first_name, u.last_name, u.birth_date, u.user_role, u.email, c.coach_id
     FROM users u LEFT JOIN coaches c
-    on u.user_id = c.userId`;
+    on u.id = c.userId
+    where u.user_role != "admin"`;
 
     let getAllUsers;
     try {
@@ -22,7 +23,7 @@ async function getUsers() {
 
 // get details of user by id
 async function getDetailsOfUserById(userId) {
-    let sql = "SELECT * FROM users WHERE user_id=?";
+    let sql = "SELECT * FROM users WHERE id=?";
 
     let parameters = [userId]
 
@@ -58,7 +59,7 @@ async function login(user) {
 
     let loggedIn = {
         email: usersLoginResult[0].email,
-        userId: usersLoginResult[0].user_id,
+        userId: usersLoginResult[0].id,
         userRole: usersLoginResult[0].user_role,
         firstName: usersLoginResult[0].first_name,
         lastName: usersLoginResult[0].last_name,
@@ -89,7 +90,7 @@ async function addNewUser(newUser) {
 
 // patch - edit user email
 async function updateUserEmail(newUserEmail, userId) {
-    let sql = "UPDATE users SET email=? WHERE user_id=?";
+    let sql = "UPDATE users SET email=? WHERE id=?";
 
     let parameters = [newUserEmail, userId];
 
@@ -105,7 +106,7 @@ async function updateUserEmail(newUserEmail, userId) {
 
 // patch - edit user password
 async function updateUserPassword(newUserPassword, userId) {
-    let sql = "UPDATE users SET password=? WHERE user_id=?";
+    let sql = "UPDATE users SET password=? WHERE id=?";
 
     let parameters = [newUserPassword, userId];
 
@@ -140,7 +141,7 @@ async function isEmailExist(user) {
 
 // delete user
 async function deleteUser(userId) {
-    let sql = "DELETE FROM users WHERE user_id=?";
+    let sql = "DELETE FROM users WHERE id=?";
 
     let parameters = [userId];
 
