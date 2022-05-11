@@ -13,7 +13,8 @@ function createToken(user) {
         id: user.userId,
         first_name: user.firstName,
         birthDate: user.birthDate,
-        role: user.userRole
+        role: user.userRole,
+        lastName: user.lastName
     };
     let token = "Bearer " + jwt.sign(payload, config.secret);
 
@@ -33,7 +34,8 @@ function decodeToken(token) {
         id: verify.id,
         firstName: verify.first_name,
         birthDate: verify.birthDate,
-        role: verify.role
+        role: verify.role,
+        lastName: verify.lastName
     }
 
     return userDetails;

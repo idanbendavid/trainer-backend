@@ -93,7 +93,8 @@ async function addNewUser(newUser) {
         userId: registerUser.insertId,
         firstName: newUser.firstName,
         birthDate: newUser.birthDate,
-        userRole: newUser.userRole
+        userRole: newUser.userRole,
+        lastName: newUser.lastName
     }
 
     let token = jwtToken.createToken(tokenDetails);
