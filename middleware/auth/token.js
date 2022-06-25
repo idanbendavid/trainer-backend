@@ -10,11 +10,12 @@ function createToken(user) {
     }
 
     const payload = {
-        id: user.userId,
+        userId: user.userId,
         first_name: user.firstName,
+        lastName: user.lastName,
+        userRole: user.userRole,
         birthDate: user.birthDate,
-        role: user.userRole,
-        lastName: user.lastName
+        email: user.email
     };
     let token = "Bearer " + jwt.sign(payload, config.secret);
 
@@ -23,19 +24,21 @@ function createToken(user) {
 
 function decodeToken(token) {
     if (!token) {
+        console.log(token);
         throw new ServerError(ErrorType.UNAUTHORIZED)
     }
-    
+
     token = token.split(" ")[1];
 
     let verify = jwt.verify(token, config.secret);
 
     let userDetails = {
-        id: verify.id,
+        userId: verify.userId,
         firstName: verify.first_name,
+        lastName: verify.lastName,
+        userRole: verify.userRole,
         birthDate: verify.birthDate,
-        role: verify.role,
-        lastName: verify.lastName
+        email: verify.email
     }
 
     return userDetails;

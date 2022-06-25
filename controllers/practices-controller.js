@@ -22,7 +22,7 @@ router.get("/", async (request, response, next) => {
 router.post("/", async (request, response, next) => {
 
     let createdPractice = request.body;
-    let role = jwtToken.decodeToken(request.headers.authorization).role;
+    let role = jwtToken.decodeToken(request.headers.authorization).userRole;
 
     try {
         let newPractice = await practiceLogic.createPractice(createdPractice,role);
@@ -37,7 +37,7 @@ router.post("/", async (request, response, next) => {
 router.put("/", async (request, response, next) => {
 
     let updatePractice = request.body;
-    let role = jwtToken.decodeToken(request.headers.authorization).role;
+    let role = jwtToken.decodeToken(request.headers.authorization).userRole;
 
     try {
         let changedPractice = await practiceLogic.updatePractice(updatePractice,role);
@@ -52,7 +52,7 @@ router.put("/", async (request, response, next) => {
 router.delete("/:practiceId", async (request, response, next) => {
 
     let practiceToDelete = request.params.practiceId;
-    let role = jwtToken.decodeToken(request.headers.authorization).role;
+    let role = jwtToken.decodeToken(request.headers.authorization).userRole;
 
     try{
         practiceToDelete = await practiceLogic.deletePractice(practiceToDelete,role);

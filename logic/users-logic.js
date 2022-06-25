@@ -7,7 +7,6 @@ const cryptation = require("../middleware/crypto/crypto");
 const jwtToken = require("../middleware/auth/token");
 const ServerError = require("../middleware/errors/server-error");
 const ErrorType = require("../middleware/errors/error-type");
-const email = require("../middleware/emails/send-email");
 
 
 // get list of all users
@@ -82,9 +81,9 @@ async function addNewUser(newUser) {
         // if the registraition was completed
         if (newUser.userRole === userRole[2]) {
             // and if the role of the user is coach
-            let coachId = uuid.v4();
+            let newCoach = uuid.v4();
             // create a uuid based coach id
-            newCoach = await coachDao.addCoach(coachId, registerUser.insertId, newUser.firstName, newUser.lastName);
+            coachId = await coachDao.addCoach(newCoach, registerUser.insertId, newUser.firstName, newUser.lastName);
             // and add him to coaches table
         }
     }
@@ -94,7 +93,8 @@ async function addNewUser(newUser) {
         firstName: newUser.firstName,
         birthDate: newUser.birthDate,
         userRole: newUser.userRole,
-        lastName: newUser.lastName
+        lastName: newUser.lastName,
+        email: newUser.email
     }
 
     let token = jwtToken.createToken(tokenDetails);

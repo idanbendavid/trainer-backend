@@ -6,8 +6,7 @@ const jwtToken = require("../middleware/auth/token")
 // get list of all users
 router.get("/allUsers", async (request, response, next) => {
 
-    let role = jwtToken.decodeToken(request.headers.authorization).role;
-
+    let role = jwtToken.decodeToken(request.headers.authorization).userRole;
     let getAllUsers;
 
     try {
@@ -77,10 +76,10 @@ router.post("/register", async (request, response, next) => {
 })
 
 // update user email
-router.patch("/", async (request, response, next) => {
+router.patch("/changeEmail", async (request, response, next) => {
 
     let userId = jwtToken.decodeToken(request.headers.authorization).id;
-    let role = jwtToken.decodeToken(request.headers.authorization).role;
+    let role = jwtToken.decodeToken(request.headers.authorization).userRole;
     let newUserEmail = request.body;
 
     try {
@@ -112,7 +111,7 @@ router.delete("/:userId", async (request, response, next) => {
 
     let userId = request.params.userId;
 
-    let adminVerification = jwtToken.decodeToken(request.headers.authorization).role;
+    let adminVerification = jwtToken.decodeToken(request.headers.authorization).userRole;
 
     try {
         let removeUser = await usersLogic.deleteUser(userId, adminVerification);
@@ -129,7 +128,7 @@ router.delete("/:userId/:coachId", async (request, response, next) => {
     let userId = request.params.userId;
     let coachId = request.params.coachId;
 
-    let adminVerification = jwtToken.decodeToken(request.headers.authorization).role;
+    let adminVerification = jwtToken.decodeToken(request.headers.authorization).userRole;
 
     try {
         let removeCoach = await usersLogic.deleteCoach(userId, adminVerification, coachId);

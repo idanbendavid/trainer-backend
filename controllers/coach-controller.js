@@ -22,7 +22,7 @@ router.get("/:coachId", async (request, response, next) => {
 
     let coachId = request.params.coachId;
 
-    let role = jwtToken.decodeToken(request.headers.authorization).role;
+    let role = jwtToken.decodeToken(request.headers.authorization).userRole;
 
     let coachAthletesDetails;
 
