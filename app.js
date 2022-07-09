@@ -7,7 +7,6 @@ const path = require('path');
 
 const usersController = require("./controllers/users-controller");
 const coachController = require("./controllers/coach-controller");
-const practicesController = require("./controllers/practices-controller");
 const userPracticesController = require("./controllers/user-practices-controller");
 const filesController = require("./controllers/files-controller");
 
@@ -34,7 +33,6 @@ server.use(express.json());
 
 server.use("/users", usersController);
 server.use("/coach", coachController);
-server.use("/practices", practicesController);
 server.use("/userPractices", userPracticesController);
 server.use("/files", filesController);
 
