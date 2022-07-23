@@ -122,11 +122,11 @@ async function updateUserPassword(newUserPassword, userId) {
 
 
 // validate if email is exist 
-async function isEmailExist(user) {
+async function isEmailExist(email) {
 
     let sql = "SELECT * FROM users WHERE email=?";
 
-    let parameters = [user.email];
+    let parameters = [email];
 
     let emailValidationResult;
 

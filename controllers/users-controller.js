@@ -21,7 +21,7 @@ router.get("/allUsers", async (request, response, next) => {
 // get details of user by id => using token not query 
 router.get("/specificUser", async (request, response, next) => {
 
-    let userId = jwtToken.decodeToken(request.headers.authorization).id;
+    let userId = jwtToken.decodeToken(request.headers.authorization).userId;
 
     try {
         userId = await usersLogic.getDetailsOfUserById(userId);
@@ -65,7 +65,7 @@ router.post("/login", async (request, response, next) => {
 router.post("/register", async (request, response, next) => {
 
     let newUser = request.body;
-    
+
     try {
         let registerUser = await usersLogic.addNewUser(newUser);
         response.json(registerUser);
@@ -78,9 +78,9 @@ router.post("/register", async (request, response, next) => {
 // update user email
 router.patch("/changeEmail", async (request, response, next) => {
 
-    let userId = jwtToken.decodeToken(request.headers.authorization).id;
+    let userId = jwtToken.decodeToken(request.headers.authorization).userId;
     let role = jwtToken.decodeToken(request.headers.authorization).userRole;
-    let newUserEmail = request.body;
+    let newUserEmail = request.body.newUserEmail;
 
     try {
         let changedUserEmail = await usersLogic.updateUserEmail(newUserEmail, userId, role);

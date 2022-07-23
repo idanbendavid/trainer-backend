@@ -65,7 +65,7 @@ async function addNewUser(newUser) {
 
     addUserValidation(newUser);
 
-    let isEmailExist = await usersDao.isEmailExist(newUser);
+    let isEmailExist = await usersDao.isEmailExist(newUser.email);
 
     if (isEmailExist) {
         throw new ServerError(ErrorType.EMAIL_ALREADY_EXIST);
@@ -121,6 +121,7 @@ function addUserValidation(newUser) {
 
 // update user email
 async function updateUserEmail(newUserEmail, userId, role) {
+
     let isEmailExist = await usersDao.isEmailExist(newUserEmail);
 
     if (isEmailExist) {
