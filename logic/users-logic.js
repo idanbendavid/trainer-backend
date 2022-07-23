@@ -1,7 +1,6 @@
 const uuid = require("uuid");
 const usersDao = require("../dao/users-dao");
 const userPracticesDao = require("../dao/user-practices-dao");
-const coachDao = require("../dao/coach-dao");
 const userRole = require("../models/roles");
 const cryptation = require("../middleware/crypto/crypto");
 const jwtToken = require("../middleware/auth/token");
@@ -36,18 +35,7 @@ async function login(loginDetails) {
 
     let token = jwtToken.createToken(loginDetails);
 
-    let coachId;
-
-    // if the user is a coach
-    if (loginDetails.userRole === userRole[2]) {
-        // get his coach id
-        coachId = await coachDao.getCoachId(loginDetails.userId);
-        return { token: token, loginDetails, coachId }
-    }
-    // if the user is not a coach
-    else {
-        return { token: token, loginDetails }
-    }
+    return { token: token, loginDetails }
 }
 
 // login validation
@@ -75,19 +63,6 @@ async function addNewUser(newUser) {
 
     let registerUser = await usersDao.addNewUser(newUser);
 
-    let newCoach;
-
-    if (registerUser) {
-        // if the registraition was completed
-        if (newUser.userRole === userRole[2]) {
-            // and if the role of the user is coach
-            let newCoach = uuid.v4();
-            // create a uuid based coach id
-            coachId = await coachDao.addCoach(newCoach, registerUser.insertId, newUser.firstName, newUser.lastName);
-            // and add him to coaches table
-        }
-    }
-
     let tokenDetails = {
         userId: registerUser.insertId,
         firstName: newUser.firstName,
@@ -100,8 +75,8 @@ async function addNewUser(newUser) {
     let token = jwtToken.createToken(tokenDetails);
 
     email.sendRegisterEmail(newUser.email);
-    
-    return { token, newUser, registerUser, newCoach };
+
+    return { token, newUser, registerUser };
 }
 
 // validation of add user
@@ -177,38 +152,6 @@ function deleteUserValidation(userId, adminVerification) {
     }
 }
 
-// delete user who is coach
-async function deleteCoach(userId, adminVerification, coachId) {
-
-    deleteCoachValidation(userId, adminVerification, coachId);
-
-    let removeCoach = {
-        unassignCoach: await userPracticesDao.unassignCoachFromUserPractice(coachId),
-        deleteCoach: await coachDao.deleteCoach(userId),
-        finalUserDeletion: await usersDao.deleteUser(userId)
-    }
-
-    return removeCoach;
-}
-
-function deleteCoachValidation(userId, adminVerification, coachId) {
-    if (adminVerification !== userRole[1]) {
-        throw new ServerError(ErrorType.UNAUTHORIZED);
-    }
-
-    if (!userId) {
-        throw new ServerError(ErrorType.UNAUTHORIZED);
-    }
-
-    if (userId == 1 || isNaN(userId) === true) {
-        throw new ServerError(ErrorType.FORBIDDEN);
-    }
-
-    if (!uuid.validate(coachId)) {
-        throw new ServerError(ErrorType.INVALID_COACH);
-    }
-}
-
 
 module.exports = {
     getUsers,
@@ -218,5 +161,4 @@ module.exports = {
     updateUserEmail,
     updateUserPassword,
     deleteUser,
-    deleteCoach
 }

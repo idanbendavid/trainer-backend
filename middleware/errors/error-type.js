@@ -42,21 +42,15 @@ let ErrorType = {
         message: "Check entered practies values",
         isShowStackTrace: false
     },
-    INVALID_COACH: {
+    UPDATE_USER: {
         id:8,
         httpCode: 456,
-        message : "Check chosen coach",
-        isShowStackTrace: false
-    },
-    UPDATE_USER: {
-        id:9,
-        httpCode: 457,
         message: "Couldn't update details, check entered value",
         isShowStackTrace: false
     },
     INVALID_IMAGE: {
-        id:10,
-        httpCode: 458,
+        id:9,
+        httpCode: 457,
         message : "invalid image",
         isShowStackTrace: false
     }

@@ -122,22 +122,7 @@ router.delete("/:userId", async (request, response, next) => {
     }
 })
 
-// delete coach
-router.delete("/:userId/:coachId", async (request, response, next) => {
 
-    let userId = request.params.userId;
-    let coachId = request.params.coachId;
-
-    let adminVerification = jwtToken.decodeToken(request.headers.authorization).userRole;
-
-    try {
-        let removeCoach = await usersLogic.deleteCoach(userId, adminVerification, coachId);
-        response.json(removeCoach);
-    }
-    catch (error) {
-        return next(error);
-    }
-})
 
 
 module.exports = router;

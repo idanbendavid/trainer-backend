@@ -9,21 +9,10 @@ async function getPracticesOfUser(userId) {
     return userPractices;
 }
 
-async function userAcquiresPractice(userId, practiceId, coachId, practiceDate) {
-
-    while (coachId !== null) {
-        if (!uuid.validate(coachId)) {
-            throw new ServerError(ErrorType.INVALID_COACH);
-        }
-
-        else {
-            let addPracticeToUser = await userPracticesDao.userAcquiresPractice(userId, practiceId, coachId, practiceDate);
-            return addPracticeToUser;
-        }
-    }
-
-    let addPracticeToUser = await userPracticesDao.userAcquiresPractice(userId, practiceId, coachId, practiceDate);
+async function userAcquiresPractice(userId, practiceId, practiceDate) {
+    let addPracticeToUser = await userPracticesDao.userAcquiresPractice(userId, practiceId, practiceDate);
     return addPracticeToUser;
+
 }
 
 async function changePracticeDate(practiceDate, userId, practiceId) {
@@ -31,29 +20,6 @@ async function changePracticeDate(practiceDate, userId, practiceId) {
     return newPracticeDate;
 }
 
-async function assignCoachToAUserSpecificPractice(coachId, userId, practiceId) {
-
-    if (!uuid.validate(coachId)) {
-        throw new ServerError(ErrorType.INVALID_COACH);
-    }
-
-    else {
-        let addCoachToOneUserPractice = await userPracticesDao.assignCoachToAUserSpecificPractice(coachId, userId, practiceId);
-        return addCoachToOneUserPractice;
-    }
-}
-
-async function assignCoachToAllUserPractices(coachId, userId) {
-
-    if (!uuid.validate(coachId)) {
-        throw new ServerError(ErrorType.INVALID_COACH);
-    }
-
-    else {
-        let addCoachToAllUserPractice = await userPracticesDao.assignCoachToAllUserPractices(coachId, userId);
-        return addCoachToAllUserPractice;
-    }
-}
 
 async function deleteOnePracticeOfUser(userId, practiceId) {
     let removeOnePracticeOfUser = await userPracticesDao.deleteOnePracticeOfUser(userId, practiceId);
@@ -70,8 +36,6 @@ module.exports = {
     getPracticesOfUser,
     userAcquiresPractice,
     changePracticeDate,
-    assignCoachToAUserSpecificPractice,
-    assignCoachToAllUserPractices,
     deleteOnePracticeOfUser,
     deleteAllUserPractices
 }

@@ -22,11 +22,10 @@ router.post("/:practiceId", async (request, response, next) => {
 
     let userId = jwtToken.decodeToken(request.headers.authorization).id;
     let practiceId = request.params.practiceId;
-    let coachId = request.body.coachId;
     let practiceDate = request.body.practiceDate;
 
     try {
-        let addPracticeToUser = await userPracticesLogic.userAcquiresPractice(userId, practiceId, coachId, practiceDate);
+        let addPracticeToUser = await userPracticesLogic.userAcquiresPractice(userId, practiceId, practiceDate);
         response.json(addPracticeToUser);
     }
     catch (error) {
@@ -50,36 +49,6 @@ router.patch("/:practiceId", async (request, response, next) => {
     }
 })
 
-// add coach to user practice
-router.put("/:practiceId", async (request, response, next) => {
-
-    let userId = jwtToken.decodeToken(request.headers.authorization).id;
-    let practiceId = request.params.practiceId;
-    let coachId = request.body.coachId;
-
-    try {
-        let addCoachToOneUserPractice = await userPracticesLogic.assignCoachToAUserSpecificPractice(coachId, userId, practiceId);
-        response.json(addCoachToOneUserPractice);
-    }
-    catch (error) {
-        return next(error);
-    }
-})
-
-// add coach to all user practices
-router.put("/", async (request, response, next) => {
-
-    let userId = jwtToken.decodeToken(request.headers.authorization).id;
-    let coachId = request.body.coachId;
-
-    try {
-        let addCoachToAllUserPractice = await userPracticesLogic.assignCoachToAllUserPractices(coachId, userId);
-        response.json(addCoachToAllUserPractice);
-    }
-    catch (error) {
-        return next(error);
-    }
-})
 
 // delete one practice
 router.delete("/onePracticeOfUser/:practiceId", async (request, response, next) => {
