@@ -6,7 +6,7 @@ const jwtToken = require("../middleware/auth/token")
 // get practices of user by user id
 router.get("/practicesOfUser", async (request, response, next) => {
 
-    let userId = jwtToken.decodeToken(request.headers.authorization).id;
+    let userId = jwtToken.decodeToken(request.headers.authorization).userId;
 
     try {
         let userPractices = await userPracticesLogic.getPracticesOfUser(userId);
@@ -18,14 +18,13 @@ router.get("/practicesOfUser", async (request, response, next) => {
 })
 
 // add practice to user 
-router.post("/:practiceId", async (request, response, next) => {
+router.post("/addPractice", async (request, response, next) => {
 
-    let userId = jwtToken.decodeToken(request.headers.authorization).id;
-    let practiceId = request.params.practiceId;
-    let practiceDate = request.body.practiceDate;
+    let userId = jwtToken.decodeToken(request.headers.authorization).userId;
+    let newPractice = request.body;
 
     try {
-        let addPracticeToUser = await userPracticesLogic.userAcquiresPractice(userId, practiceId, practiceDate);
+        let addPracticeToUser = await userPracticesLogic.userAcquiresPractice(userId, newPractice);
         response.json(addPracticeToUser);
     }
     catch (error) {
@@ -36,13 +35,13 @@ router.post("/:practiceId", async (request, response, next) => {
 // change date of practice by user id and practice id
 router.patch("/:practiceId", async (request, response, next) => {
 
-    let practiceDate = request.body.practiceDate;
-    let userId = jwtToken.decodeToken(request.headers.authorization).id;
+    let userId = jwtToken.decodeToken(request.headers.authorization).userId;
     let practiceId = request.params.practiceId;
+    let practiceDate = request.body.practiceDate;
 
     try {
-        let newPracticeDate = await userPracticesLogic.changePracticeDate(practiceDate, userId, practiceId);
-        response.json(newPracticeDate);
+        let updatedPracticeDate = await userPracticesLogic.changePracticeDate(userId, practiceId, practiceDate);
+        response.json(updatedPracticeDate);
     }
     catch (error) {
         return next(error);
@@ -51,9 +50,9 @@ router.patch("/:practiceId", async (request, response, next) => {
 
 
 // delete one practice
-router.delete("/onePracticeOfUser/:practiceId", async (request, response, next) => {
+router.delete("/deletePractice/:practiceId", async (request, response, next) => {
 
-    let userId = jwtToken.decodeToken(request.headers.authorization).id;
+    let userId = jwtToken.decodeToken(request.headers.authorization).userId;
     let practiceId = request.params.practiceId;
 
     try {
@@ -66,9 +65,9 @@ router.delete("/onePracticeOfUser/:practiceId", async (request, response, next) 
 })
 
 // delete all user practices
-router.delete("/allUserPractices", async (request, response, next) => {
+router.delete("/deleteAllUserPractices", async (request, response, next) => {
 
-    let userId = jwtToken.decodeToken(request.headers.authorization).id;
+    let userId = jwtToken.decodeToken(request.headers.authorization).userId;
 
     try {
         let deleteAllPracticesOfUser = await userPracticesLogic.deleteAllUserPractices(userId);
