@@ -5,8 +5,7 @@ const nodemailer = require("nodemailer");
 
 // get
 async function getUsers() {
-    let sql = `SELECT u.id, u.first_name, u.last_name, u.birth_date, u.user_role, u.email,
-    where u.user_role != "admin"`;
+    let sql = `SELECT id, first_name, last_name, birth_date, user_role, email FROM users where user_role NOT LIKE '%admin%'`;
 
     let getAllUsers;
     try {
