@@ -4,8 +4,11 @@ const ServerError = require("../middleware/errors/server-error");
 
 // get practices of user by user id
 async function getPracticesOfUser(userId) {
-    let sql = ``;
-    // write from scartch the sql query
+    let sql = `SELECT u.first_name, u.last_name, up.practice_id, up.name, up.bodyPart, up.equipment, 
+    up.target, up.practiceDate FROM users u 
+    LEFT JOIN users_practices up 
+    ON u.id = up.user_id
+    WHERE up.user_id=?`;
 
     let parameters = [userId];
 
@@ -20,11 +23,11 @@ async function getPracticesOfUser(userId) {
 }
 
 
-// add practice to user => 
-async function userAcquiresPractice(userId, practiceId, practiceDate) {
-    let sql = `INSERT INTO users_practices(user_id,practice_id,name,bofyPart,equipment,target,practiceDate) VALUES(?,?,?,?,?,?,?,?)`;
+// add practice to user 
+async function userAcquiresPractice(userId, newPractice) {
+    let sql = `INSERT INTO users_practices(user_id,practice_id,name,bodyPart,equipment,target,practiceDate) VALUES(?,?,?,?,?,?,?,?)`;
 
-    let parameters = [userId, practiceId, practiceDate];
+    let parameters = [userId, newPractice.practiceId, newPractice.name, newPractice.bodyPart, newPractice.equipment, newPractice.target, newPractice.practiceDate];
 
     let addExercise;
 
@@ -39,7 +42,7 @@ async function userAcquiresPractice(userId, practiceId, practiceDate) {
 
 // patch - change  date of practice => using userId and practice id
 
-async function changePracticeDate(practiceDate, userId, practiceId) {
+async function changePracticeDate(userId, practiceId, practiceDate) {
     let sql = `UPDATE users_practices SET practiceDate=? WHERE user_id=? AND practice_id=?`;
 
     let parameters = [practiceDate, userId, practiceId];
