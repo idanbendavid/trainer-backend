@@ -1,23 +1,20 @@
 const userPracticesDao = require("../dao/user-practices-dao");
-const userRole = require("../models/roles");
 const ServerError = require("../middleware/errors/server-error");
 const ErrorType = require("../middleware/errors/error-type");
-const uuid = require("uuid");
 
 async function getPracticesOfUser(userId) {
     let userPractices = await userPracticesDao.getPracticesOfUser(userId);
     return userPractices;
 }
 
-async function userAcquiresPractice(userId, practiceId, practiceDate) {
-    let addPracticeToUser = await userPracticesDao.userAcquiresPractice(userId, practiceId, practiceDate);
+async function userAcquiresPractice(userId, newPractice) {
+    let addPracticeToUser = await userPracticesDao.userAcquiresPractice(userId, newPractice);
     return addPracticeToUser;
-
 }
 
-async function changePracticeDate(practiceDate, userId, practiceId) {
-    let newPracticeDate = await userPracticesDao.changePracticeDate(practiceDate, userId, practiceId);
-    return newPracticeDate;
+async function changePracticeDate(userId, practiceId, practiceDate) {
+    let updatedPracticeDate = await userPracticesDao.changePracticeDate(userId, practiceId, practiceDate);
+    return updatedPracticeDate;
 }
 
 
