@@ -24,7 +24,6 @@ function createToken(user) {
 
 function decodeToken(token) {
     if (!token) {
-        console.log(token);
         throw new ServerError(ErrorType.UNAUTHORIZED)
     }
 
