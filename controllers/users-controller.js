@@ -92,13 +92,13 @@ router.patch("/changeEmail", async (request, response, next) => {
 })
 
 // update user password
-router.patch("/", async (request, response, next) => {
+router.put("/", async (request, response, next) => {
 
-    let userId = jwtToken.decodeToken(request.headers.authorization).id;
-    let newUserPassword = request.body;
+    let newUserPassword = request.body.newPassword;
+    let email = request.body.email;
 
     try {
-        let changedUserPassword = await usersLogic.updateUserPassword(newUserPassword, userId);
+        let changedUserPassword = await usersLogic.updateUserPassword(newUserPassword, email);
         response.json(changedUserPassword);
     }
     catch (error) {
@@ -122,7 +122,18 @@ router.delete("/:userId", async (request, response, next) => {
     }
 })
 
+router.get("/checkEmail/:checkEmail", async (request, response, next) => {
 
+    let EmailValidition = request.params.checkEmail;
+
+    try {
+        checkEmail = await usersLogic.checkEmailValidation(EmailValidition);
+        response.json(checkEmail)
+    }
+    catch (error) {
+        return next(error);
+    }
+})
 
 
 module.exports = router;
