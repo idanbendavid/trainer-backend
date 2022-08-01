@@ -27,7 +27,8 @@ async function getPracticesOfUser(userId) {
 async function userAcquiresPractice(userId, newPractice) {
     let sql = `INSERT INTO users_practices(user_id,practice_id,name,bodyPart,equipment,target,practiceDate) VALUES(?,?,?,?,?,?,?,?)`;
 
-    let parameters = [userId, newPractice.practiceId, newPractice.name, newPractice.bodyPart, newPractice.equipment, newPractice.target, newPractice.practiceDate];
+    let parameters = [userId, newPractice.id, newPractice.name, newPractice.bodyPart, newPractice.equipment, newPractice.target, newPractice.practiceDate];
+// practice date needs to be added in client
 
     let addExercise;
 
