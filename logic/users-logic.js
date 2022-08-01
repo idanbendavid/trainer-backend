@@ -113,11 +113,10 @@ async function updateUserEmail(newUserEmail, userId, role) {
 }
 
 // update user password
-async function updateUserPassword(newUserPassword, userId) {
+async function updateUserPassword(newUserPassword, email) {
+    newPassword = cryptation.hashPassword(newUserPassword);
 
-    updateUser.password = cryptation.hashPassword(newUserPassword);
-
-    let changedUserPassword = await usersDao.updateUserPassword(newUserPassword, userId);
+    let changedUserPassword = await usersDao.updateUserPassword(newPassword, email);
 
     return changedUserPassword;
 }
@@ -152,6 +151,15 @@ function deleteUserValidation(userId, adminVerification) {
     }
 }
 
+async function checkEmailValidation(EmailValidition) {
+    if (EmailValidition.includes('admin')) {
+        throw new ServerError(ErrorType.UNAUTHORIZED)
+    }
+
+    checkEmail = await usersDao.checkEmailValidation(EmailValidition);
+    return checkEmail;
+}
+
 
 module.exports = {
     getUsers,
@@ -161,4 +169,5 @@ module.exports = {
     updateUserEmail,
     updateUserPassword,
     deleteUser,
+    checkEmailValidation
 }
