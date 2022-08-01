@@ -9,7 +9,7 @@ let ErrorType = {
     UNAUTHORIZED: {
         id: 2,
         httpCode: 401,
-        message: "Invalid or expired token",
+        message: "Invalid, check entered values",
         isShowStackTrace: false
     },
     FORBIDDEN: {
