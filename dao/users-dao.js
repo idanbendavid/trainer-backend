@@ -102,10 +102,10 @@ async function updateUserEmail(newUserEmail, userId) {
 }
 
 // patch - edit user password
-async function updateUserPassword(newUserPassword, userId) {
-    let sql = "UPDATE users SET password=? WHERE id=?";
+async function updateUserPassword(newUserPassword, email) {
+    let sql = "UPDATE users SET password=? WHERE email=?";
 
-    let parameters = [newUserPassword, userId];
+    let parameters = [newUserPassword, email];
 
     let changedUserPassword;
     try {
@@ -118,7 +118,7 @@ async function updateUserPassword(newUserPassword, userId) {
 }
 
 
-// validate if email is exist 
+// validate if email is exist  and get date of user
 async function isEmailExist(email) {
 
     let sql = "SELECT * FROM users WHERE email=?";
@@ -153,6 +153,19 @@ async function deleteUser(userId) {
     return deleteSpecificUser
 }
 
+async function checkEmailValidation(email) {
+    let sql = `SELECT email FROM users where email=?`;
+
+    let parameters = [email];
+    let checkEmail;
+    try {
+        checkEmail = await connection.executeWithParameters(sql, parameters);
+        return checkEmail[0].email;
+    }
+    catch (error) {
+        throw new ServerError(ErrorType.INVALID_EMAIL, error);
+    }
+}
 
 module.exports = {
     getUsers,
@@ -162,5 +175,6 @@ module.exports = {
     updateUserEmail,
     updateUserPassword,
     isEmailExist,
-    deleteUser
+    deleteUser,
+    checkEmailValidation
 }
