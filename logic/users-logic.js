@@ -1,6 +1,6 @@
 const uuid = require("uuid");
 const usersDao = require("../dao/users-dao");
-const userPracticesDao = require("../dao/user-practices-dao");
+const userExercisesDao = require("../dao/user-exercises-dao");
 const userRole = require("../models/roles");
 const cryptation = require("../middleware/crypto/crypto");
 const jwtToken = require("../middleware/auth/token");
@@ -127,7 +127,7 @@ async function deleteUser(userId, adminVerification) {
     deleteUserValidation(userId, adminVerification);
 
     let removeUser = {
-        removePracticesOfUser: await userPracticesDao.deleteAllUserPractices(userId),
+        removeExercisesOfUser: await userExercisesDao.deleteAllUserExercises(userId),
         goodbeyUser: await usersDao.deleteUser(userId)
     };
 

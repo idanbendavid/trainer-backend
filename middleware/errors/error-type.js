@@ -36,7 +36,7 @@ let ErrorType = {
         message: "Email already exists",
         isShowStackTrace: false
     },
-    INVALID_PRACTICE: {
+    INVALID_EXERCISE: {
         id: 7,
         httpCode: 455,
         message: "Check entered practies values",
