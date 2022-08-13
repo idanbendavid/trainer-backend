@@ -4,7 +4,7 @@ const ServerError = require("../middleware/errors/server-error");
 
 // get exercises of user by user id
 async function getExercisesOfUser(userId) {
-    let sql = `SELECT u.first_name, u.last_name, ue.exercise_id, ue.name, ue.bodyPart, ue.equipment, 
+    let sql = `SELECT ue.exercise_id, ue.name, ue.bodyPart, ue.equipment, ue.gifUrl,
     ue.target, ue.exerciseDate FROM users u 
     LEFT JOIN users_exercices ue 
     ON u.id = ue.user_id
@@ -25,10 +25,9 @@ async function getExercisesOfUser(userId) {
 
 // add exercise to user 
 async function userAcquiresExercise(userId, newExercise, exerciseDate) {
-    let sql = `INSERT INTO users_exercices(user_id,exercise_id,name,bodyPart,equipment,target,exerciseDate) VALUES(?,?,?,?,?,?,?)`;
+    let sql = `INSERT INTO users_exercices(user_id,exercise_id,name,bodyPart,equipment,target,gifUrl,exerciseDate) VALUES(?,?,?,?,?,?,?,?)`;
 
-    let parameters = [userId, newExercise.id, newExercise.name, newExercise.bodyPart, newExercise.equipment, newExercise.target, exerciseDate];
-    // exercise date needs to be added in client
+    let parameters = [userId, newExercise.id, newExercise.name, newExercise.bodyPart, newExercise.equipment, newExercise.target, newExercise.gifUrl, exerciseDate];
     let addExercise;
 
     try {
