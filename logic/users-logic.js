@@ -6,7 +6,7 @@ const cryptation = require("../middleware/crypto/crypto");
 const jwtToken = require("../middleware/auth/token");
 const ServerError = require("../middleware/errors/server-error");
 const ErrorType = require("../middleware/errors/error-type");
-
+const email = require("../middleware/emails/send-email")
 
 // get list of all users
 async function getUsers(role) {
