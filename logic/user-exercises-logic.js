@@ -7,8 +7,8 @@ async function getExercisesOfUser(userId) {
     return userExercises;
 }
 
-async function userAcquiresExercise(userId, newExercise, exerciseDate) {
-    let addExerciseToUser = await userExercisesDao.userAcquiresExercise(userId, newExercise, exerciseDate);
+async function userAcquiresExercise(userId, newExercise, exerciseDate, exercisesStatus) {
+    let addExerciseToUser = await userExercisesDao.userAcquiresExercise(userId, newExercise, exerciseDate, exercisesStatus);  
     return addExerciseToUser;
 }
 
