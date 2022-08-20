@@ -5,7 +5,7 @@ const ServerError = require("../middleware/errors/server-error");
 // get exercises of user by user id
 async function getExercisesOfUser(userId) {
     let sql = `SELECT ue.exercise_id, ue.name, ue.bodyPart, ue.equipment, ue.gifUrl,
-    ue.target, ue.exerciseDate FROM users u 
+    ue.target, ue.exerciseDate, ue.exercise_status FROM users u 
     LEFT JOIN users_exercices ue 
     ON u.id = ue.user_id
     WHERE ue.user_id=?`;
@@ -24,10 +24,10 @@ async function getExercisesOfUser(userId) {
 
 
 // add exercise to user 
-async function userAcquiresExercise(userId, newExercise, exerciseDate) {
-    let sql = `INSERT INTO users_exercices(user_id,exercise_id,name,bodyPart,equipment,target,gifUrl,exerciseDate) VALUES(?,?,?,?,?,?,?,?)`;
-
-    let parameters = [userId, newExercise.id, newExercise.name, newExercise.bodyPart, newExercise.equipment, newExercise.target, newExercise.gifUrl, exerciseDate];
+async function userAcquiresExercise(userId, newExercise, exerciseDate, exerciseStatus) {
+    let sql = `INSERT INTO users_exercices(user_id,exercise_id,name,bodyPart,equipment,target,gifUrl,exerciseDate,exercise_status) VALUES(?,?,?,?,?,?,?,?,?)`;
+    
+    let parameters = [userId, newExercise.id, newExercise.name, newExercise.bodyPart, newExercise.equipment, newExercise.target, newExercise.gifUrl, exerciseDate, exerciseStatus];
     let addExercise;
 
     try {
