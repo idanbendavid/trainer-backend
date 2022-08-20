@@ -21,9 +21,11 @@ router.post("/addExercise", async (request, response, next) => {
 
     let userId = jwtToken.decodeToken(request.headers.authorization).userId;
     let newExercise = request.body.newExercise;
-    let exerciseDate = request.body.fixedDate;
+    let exerciseDate = request.body.changedDate;
+    let exercisesStatus = request.body.completed;
+
     try {
-        let addExercisesToUser = await userExercisesLogic.userAcquiresExercise(userId, newExercise, exerciseDate);
+        let addExercisesToUser = await userExercisesLogic.userAcquiresExercise(userId, newExercise, exerciseDate, exercisesStatus);
         response.json(addExercisesToUser);
     }
     catch (error) {
