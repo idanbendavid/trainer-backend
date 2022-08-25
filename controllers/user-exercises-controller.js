@@ -1,7 +1,9 @@
 const express = require("express");
 const router = express.Router();
 const userExercisesLogic = require("../logic/user-exercises-logic");
-const jwtToken = require("../middleware/auth/token")
+const jwtToken = require("../middleware/auth/token");
+const developmentLogger = require("../middleware/logger/dev-logger");
+
 
 // get exercises of user by user id
 router.get("/exercisesOfUser", async (request, response, next) => {
@@ -12,6 +14,7 @@ router.get("/exercisesOfUser", async (request, response, next) => {
         response.json(userExercises);
     }
     catch (error) {
+        developmentLogger().error(error.errorType)
         return next(error);
     }
 })
@@ -29,6 +32,7 @@ router.post("/addExercise", async (request, response, next) => {
         response.json(addExercisesToUser);
     }
     catch (error) {
+        developmentLogger().error(error.errorType)
         return next(error);
     }
 })
@@ -45,6 +49,7 @@ router.patch("/:exerciseId", async (request, response, next) => {
         response.json(updatedExerciseDate);
     }
     catch (error) {
+        developmentLogger().error(error.errorType)
         return next(error);
     }
 })
@@ -61,6 +66,7 @@ router.delete("/deleteExercise/:exerciseId", async (request, response, next) => 
         response.json(removeOneExerciseOfUser);
     }
     catch (error) {
+        developmentLogger().error(error.errorType)
         return next(error);
     }
 })
@@ -75,6 +81,7 @@ router.delete("/deleteAllUserExercises", async (request, response, next) => {
         response.json(deleteAllExercisesOfUser);
     }
     catch (error) {
+        developmentLogger().error(error.errorType)
         return next(error);
     }
 })

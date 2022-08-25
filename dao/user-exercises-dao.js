@@ -1,6 +1,7 @@
 const connection = require("../db/connection-wrapper");
 const ErrorType = require("../middleware/errors/error-type");
 const ServerError = require("../middleware/errors/server-error");
+const developmentLogger = require("../middleware/logger/dev-logger");
 
 // get exercises of user by user id
 async function getExercisesOfUser(userId) {
@@ -17,6 +18,7 @@ async function getExercisesOfUser(userId) {
         userExercises = await connection.executeWithParameters(sql, parameters);
     }
     catch (error) {
+        developmentLogger().debug(error)
         throw new ServerError(ErrorType.GENERAL_ERROR, error);
     }
     return userExercises;
@@ -26,7 +28,7 @@ async function getExercisesOfUser(userId) {
 // add exercise to user 
 async function userAcquiresExercise(userId, newExercise, exerciseDate, exerciseStatus) {
     let sql = `INSERT INTO users_exercices(user_id,exercise_id,name,bodyPart,equipment,target,gifUrl,exerciseDate,exercise_status) VALUES(?,?,?,?,?,?,?,?,?)`;
-    
+
     let parameters = [userId, newExercise.id, newExercise.name, newExercise.bodyPart, newExercise.equipment, newExercise.target, newExercise.gifUrl, exerciseDate, exerciseStatus];
     let addExercise;
 
@@ -34,6 +36,7 @@ async function userAcquiresExercise(userId, newExercise, exerciseDate, exerciseS
         addExercise = await connection.executeWithParameters(sql, parameters);
     }
     catch (error) {
+        developmentLogger().debug(error)
         throw new ServerError(ErrorType.GENERAL_ERROR, error);
     }
     return addExercise;
@@ -51,6 +54,7 @@ async function changeExerciseDate(userId, exerciseId, exerciseDate) {
         newExerciseDate = await connection.executeWithParameters(sql, parameters);
     }
     catch (error) {
+        developmentLogger().debug(error)
         throw new ServerError(ErrorType.GENERAL_ERROR, error);
     }
     return newExerciseDate;
@@ -68,6 +72,7 @@ async function deleteOneExerciseOfUser(userId, exerciseId) {
         deleteOneUserExercise = await connection.executeWithParameters(sql, parameters);
     }
     catch (error) {
+        developmentLogger().debug(error)
         throw new ServerError(ErrorType.GENERAL_ERROR, error)
     }
 
@@ -86,6 +91,7 @@ async function deleteAllUserExercises(userId) {
         deleteAllUserExercises = await connection.executeWithParameters(sql, parameters);
     }
     catch (error) {
+        developmentLogger().debug(error)
         throw new ServerError(ErrorType.GENERAL_ERROR, error)
     }
 

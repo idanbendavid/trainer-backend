@@ -1,7 +1,8 @@
 const express = require("express");
 const router = express.Router();
 const usersLogic = require("../logic/users-logic");
-const jwtToken = require("../middleware/auth/token")
+const jwtToken = require("../middleware/auth/token");
+const developmentLogger = require("../middleware/logger/dev-logger");
 
 // get list of all users
 router.get("/allUsers", async (request, response, next) => {
@@ -14,6 +15,7 @@ router.get("/allUsers", async (request, response, next) => {
         response.json(getAllUsers)
     }
     catch (error) {
+        developmentLogger().error(error.errorType)
         return next(error);
     }
 })
@@ -28,6 +30,7 @@ router.get("/specificUser", async (request, response, next) => {
         response.json(userId)
     }
     catch (error) {
+        developmentLogger().error(error.errorType)
         return next(error);
     }
 })
@@ -43,6 +46,7 @@ router.get("/verify_token", (request, response, next) => {
         response.json(userDetails);
     }
     catch (error) {
+        developmentLogger().error(error.errorType)
         return next(error)
     }
 })
@@ -57,6 +61,7 @@ router.post("/login", async (request, response, next) => {
         response.json(userLogin);
     }
     catch (error) {
+        developmentLogger().error(error.errorType)
         return next(error);
     }
 })
@@ -71,6 +76,7 @@ router.post("/register", async (request, response, next) => {
         response.json(registerUser);
     }
     catch (error) {
+        developmentLogger().error(error.errorType)
         return next(error);
     }
 })
@@ -87,6 +93,7 @@ router.patch("/changeEmail", async (request, response, next) => {
         response.json(changedUserEmail);
     }
     catch (error) {
+        developmentLogger().error(error.errorType)
         return next(error);
     }
 })
@@ -102,6 +109,7 @@ router.put("/", async (request, response, next) => {
         response.json(changedUserPassword);
     }
     catch (error) {
+        developmentLogger().error(error.errorType)
         return next(error);
     }
 })
@@ -118,6 +126,7 @@ router.delete("/:userId", async (request, response, next) => {
         response.json(removeUser);
     }
     catch (error) {
+        developmentLogger().error(error.errorType)
         return next(error);
     }
 })
