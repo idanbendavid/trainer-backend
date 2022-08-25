@@ -8,6 +8,7 @@ const path = require('path');
 const usersController = require("./controllers/users-controller");
 const userExercisesController = require("./controllers/user-exercises-controller");
 const filesController = require("./controllers/files-controller");
+const publicComplaintController = require("./controllers/public-complaints-controller")
 
 const errorHandler = require("./middleware/errors/error-handler");
 const loginFilter = require("./middleware/filters/login-filter");
@@ -33,6 +34,7 @@ server.use(express.json());
 server.use("/users", usersController);
 server.use("/userExercises", userExercisesController);
 server.use("/files", filesController);
+server.use("/complaint", publicComplaintController);
 
 server.use(errorHandler);
 server.use(loginFilter);
