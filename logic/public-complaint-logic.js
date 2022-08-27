@@ -18,7 +18,13 @@ async function newComplaint(userComplaint) {
     return userComplaint;
 }
 
+async function deleteUserComplaint(complaintId){
+    let deleteComplaint = await publicComplaintDao.deleteUserComplaint(complaintId);
+    return deleteComplaint;
+}
+
 module.exports = {
     getAllComplaints,
     newComplaint,
+    deleteUserComplaint
 }
