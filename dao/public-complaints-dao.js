@@ -5,7 +5,7 @@ const developmentLogger = require("../middleware/logger/dev-logger");
 
 
 async function getAllComplaints() {
-    let sql = `SELECT complaintId,concat(first_name,last_name) AS 'full name',email, complaint_category,description
+    let sql = `SELECT complaintId,first_name,last_name,email,complaint_category,description
     FROM complaints`;
 
     let getComplaints;
@@ -26,7 +26,7 @@ async function newComplaint(userComplaint) {
     console.log(userComplaint)
 
     let parameters = [userComplaint.firstName, userComplaint.lastName, userComplaint.email, userComplaint.complaintCategory, userComplaint.description];
-    
+
     let newComplaint;
 
     try {
@@ -38,7 +38,24 @@ async function newComplaint(userComplaint) {
     return newComplaint;
 }
 
+async function deleteUserComplaint(complaintId){
+    let sql = `DELETE FROM complaints WHERE complaintId=?`;
+
+    let parameters = [complaintId];
+
+    let deleteComplaint; 
+
+    try{
+        deleteComplaint = await connection.executeWithParameters(sql,parameters);
+    }
+    catch(error){
+        throw new ServerError(ErrorType.GENERAL_ERROR, error)
+    }
+    return deleteComplaint
+}
+
 module.exports = {
     getAllComplaints,
-    newComplaint
+    newComplaint,
+    deleteUserComplaint
 }
