@@ -34,4 +34,17 @@ router.post("/", async (request, response, next) => {
     }
 })
 
+router.delete("/:complaintId", async (request, response, next) => {
+
+    let complaintId = request.params.complaintId;
+
+    try {
+        let deleteComplaint = await publicComplaintsLogic.deleteUserComplaint(complaintId)
+        response.json(deleteComplaint)
+    }
+    catch (error) {
+        developmentLogger().error(error.errorType)
+        return next(error)
+    }
+})
 module.exports = router
