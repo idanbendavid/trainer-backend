@@ -27,12 +27,11 @@ router.post("/", (request, response) => {
             response.status(500).send({ message: "File upload failed", code: 445 });
             return
         }
-        let filePath = `https://localhost:3001/${filename}`;
+        let filePath = `http://localhost:3001/${filename}`;
 
         response.json(filePath);
+        filesDao.addFile(filePath, filename);
     });
-
-    filesDao.addFile(filename);
 });
 
 // delete file
