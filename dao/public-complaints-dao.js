@@ -23,8 +23,6 @@ async function getAllComplaints() {
 async function newComplaint(userComplaint) {
     let sql = `INSERT INTO complaints (first_name,last_name,email,complaint_category,description) VALUES(?,?,?,?,?)`;
 
-    console.log(userComplaint)
-
     let parameters = [userComplaint.firstName, userComplaint.lastName, userComplaint.email, userComplaint.complaintCategory, userComplaint.description];
 
     let newComplaint;

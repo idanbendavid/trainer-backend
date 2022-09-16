@@ -15,10 +15,10 @@ async function getFiles() {
     return files;
 }
 
-async function addFile(filename) {
-    let sql = `INSERT INTO files (file_name) VALUES(?)`;
+async function addFile(filePath, filename) {
+    let sql = `INSERT INTO files (file_path,file_name) VALUES(?,?)`;
 
-    let parameters = [filename];
+    let parameters = [filePath, filename];
 
     let savedFile;
     try {
