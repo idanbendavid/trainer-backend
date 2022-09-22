@@ -7,7 +7,7 @@ const developmentLogger = require("../middleware/logger/dev-logger");
 async function getExercisesOfUser(userId) {
     let sql = `SELECT ue.exercise_id, ue.name, ue.bodyPart, ue.equipment, ue.gifUrl,
     ue.target, ue.exerciseDate, ue.exercise_status FROM users u 
-    LEFT JOIN users_exercices ue 
+    LEFT JOIN users_exercises ue 
     ON u.id = ue.user_id
     WHERE ue.user_id=?`;
 
@@ -24,10 +24,30 @@ async function getExercisesOfUser(userId) {
     return userExercises;
 }
 
+async function getAmountOfExercisesPerDateForUser(userId) {
+    let sql = `SELECT exerciseDate, COUNT(exerciseDate) 
+    FROM users_exercises
+    WHERE user_id=?
+    GROUP BY exerciseDate
+    HAVING COUNT(*) >= 5`;
+
+    let parameters = [userId];
+
+    let exercisesPerDate;
+    try {
+        exercisesPerDate = await connection.executeWithParameters(sql, parameters);
+    }
+    catch (error) {
+        developmentLogger().debug(error)
+        throw new ServerError(ErrorType.GENERAL_ERROR, error);
+    }
+    return exercisesPerDate;
+}
+
 
 // add exercise to user 
 async function userAcquiresExercise(userId, newExercise, exerciseDate, exerciseStatus) {
-    let sql = `INSERT INTO users_exercices(user_id,exercise_id,name,bodyPart,equipment,target,gifUrl,exerciseDate,exercise_status) VALUES(?,?,?,?,?,?,?,?,?)`;
+    let sql = `INSERT INTO users_exercises(user_id,exercise_id,name,bodyPart,equipment,target,gifUrl,exerciseDate,exercise_status) VALUES(?,?,?,?,?,?,?,?,?)`;
 
     let parameters = [userId, newExercise.id, newExercise.name, newExercise.bodyPart, newExercise.equipment, newExercise.target, newExercise.gifUrl, exerciseDate, exerciseStatus];
     let addExercise;
@@ -45,7 +65,7 @@ async function userAcquiresExercise(userId, newExercise, exerciseDate, exerciseS
 // patch - change date of exercise => using userId and exercise id
 
 async function changeExerciseDate(userId, exerciseId, exerciseDate) {
-    let sql = `UPDATE users_exercices SET exerciseDate=? WHERE user_id=? AND exercise_id=?`;
+    let sql = `UPDATE users_exercises SET exerciseDate=? WHERE user_id=? AND exercise_id=?`;
 
     let parameters = [exerciseDate, userId, exerciseId];
 
@@ -62,7 +82,7 @@ async function changeExerciseDate(userId, exerciseId, exerciseDate) {
 
 // delete one exercise of user 
 async function deleteOneExerciseOfUser(userId, exerciseId) {
-    let sql = `DELETE FROM users_exercices WHERE user_id=? AND exercise_id=?`;
+    let sql = `DELETE FROM users_exercises WHERE user_id=? AND exercise_id=?`;
 
     let parameters = [userId, exerciseId];
 
@@ -81,7 +101,7 @@ async function deleteOneExerciseOfUser(userId, exerciseId) {
 
 // delete all exercises of a user
 async function deleteAllUserExercises(userId) {
-    let sql = `DELETE FROM users_exercices WHERE user_id=?`;
+    let sql = `DELETE FROM users_exercises WHERE user_id=?`;
 
     let parameters = [userId];
 
@@ -101,6 +121,7 @@ async function deleteAllUserExercises(userId) {
 
 module.exports = {
     getExercisesOfUser,
+    getAmountOfExercisesPerDateForUser,
     userAcquiresExercise,
     changeExerciseDate,
     deleteOneExerciseOfUser,

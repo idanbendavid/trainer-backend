@@ -7,6 +7,11 @@ async function getExercisesOfUser(userId) {
     return userExercises;
 }
 
+async function getAmountOfExercisesPerDateForUser(userId) {
+    let exercisesPerDate = await userExercisesDao.getAmountOfExercisesPerDateForUser(userId);
+    return exercisesPerDate;
+}
+
 async function userAcquiresExercise(userId, newExercise, exerciseDate, exercisesStatus) {
     let addExerciseToUser = await userExercisesDao.userAcquiresExercise(userId, newExercise, exerciseDate, exercisesStatus);  
     return addExerciseToUser;
@@ -32,6 +37,7 @@ async function deleteAllUserExercises(userId) {
 module.exports = {
     getExercisesOfUser,
     userAcquiresExercise,
+    getAmountOfExercisesPerDateForUser,
     changeExerciseDate,
     deleteOneExerciseOfUser,
     deleteAllUserExercises

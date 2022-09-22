@@ -19,6 +19,20 @@ router.get("/exercisesOfUser", async (request, response, next) => {
     }
 })
 
+router.get("/amountOfExercises", async (request, response, next) => {
+
+    let userId = jwtToken.decodeToken(request.headers.authorization).userId;
+
+    try {
+        let exercisesPerDate = await userExercisesLogic.getAmountOfExercisesPerDateForUser(userId);
+        response.json(exercisesPerDate);
+    }
+    catch (error) {
+        developmentLogger().error(error.errorType)
+        return next(error);
+    }
+})
+
 // add exercise to user 
 router.post("/addExercise", async (request, response, next) => {
 
