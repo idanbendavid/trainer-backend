@@ -1,4 +1,3 @@
-const uuid = require("uuid");
 const usersDao = require("../dao/users-dao");
 const userExercisesDao = require("../dao/user-exercises-dao");
 const userRole = require("../models/roles");
