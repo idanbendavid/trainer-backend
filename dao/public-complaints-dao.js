@@ -5,8 +5,7 @@ const developmentLogger = require("../middleware/logger/dev-logger");
 
 
 async function getAllComplaints() {
-    let sql = `SELECT complaintId,first_name,last_name,email,complaint_category,description
-    FROM complaints`;
+    let sql = `SELECT * FROM complaints`;
 
     let getComplaints;
 
@@ -21,9 +20,9 @@ async function getAllComplaints() {
 }
 
 async function newComplaint(userComplaint) {
-    let sql = `INSERT INTO complaints (first_name,last_name,email,complaint_category,description) VALUES(?,?,?,?,?)`;
+    let sql = `INSERT INTO complaints (firstName,lastName,email,complaintCategory,description,complaintDate) VALUES(?,?,?,?,?,?)`;
 
-    let parameters = [userComplaint.firstName, userComplaint.lastName, userComplaint.email, userComplaint.complaintCategory, userComplaint.description];
+    let parameters = [userComplaint.firstName, userComplaint.lastName, userComplaint.email, userComplaint.complaintCategory, userComplaint.description, new Date().toDateString()];
 
     let newComplaint;
 

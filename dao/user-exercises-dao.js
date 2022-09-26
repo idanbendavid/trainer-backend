@@ -29,7 +29,7 @@ async function getAmountOfExercisesPerDateForUser(userId) {
     FROM users_exercises
     WHERE user_id=?
     GROUP BY exerciseDate
-    HAVING COUNT(*) >= 5`;
+    HAVING COUNT(*) >= 7`;
 
     let parameters = [userId];
 

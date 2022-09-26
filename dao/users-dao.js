@@ -53,7 +53,7 @@ async function login(user) {
     }
 
     if (usersLoginResult === null || usersLoginResult.length === 0) {
-        developmentLogger().debug(error)
+        developmentLogger().debug(ErrorType.UNAUTHORIZED)
         throw new ServerError(ErrorType.UNAUTHORIZED);
     }
 
