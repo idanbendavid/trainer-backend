@@ -2,6 +2,7 @@ const express = require("express");
 const router = express.Router();
 const filesDao = require("../dao/files-dao");
 const fs = require('fs');
+const outgoingEmail = require("../middleware/emails/send-email");
 
 // get files
 router.get("/", async (request, response, next) => {
@@ -29,8 +30,8 @@ router.post("/", (request, response) => {
         }
         let filePath = `http://localhost:3001/${filename}`;
 
-        response.json(filePath);
         filesDao.addFile(filePath, filename);
+        response.json(filePath);
     });
 });
 

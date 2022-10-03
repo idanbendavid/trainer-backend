@@ -5,7 +5,7 @@ const cryptation = require("../middleware/crypto/crypto");
 const jwtToken = require("../middleware/auth/token");
 const ServerError = require("../middleware/errors/server-error");
 const ErrorType = require("../middleware/errors/error-type");
-const email = require("../middleware/emails/send-email")
+const outgoingEmail = require("../middleware/emails/send-email");
 
 // get list of all users
 async function getUsers(role) {
@@ -73,7 +73,9 @@ async function addNewUser(newUser) {
 
     let token = jwtToken.createToken(tokenDetails);
 
-    email.sendRegisterEmail(newUser.email);
+    if (token) {
+        outgoingEmail.sendRegisterEmail(newUser.email);
+    }
 
     return { token, newUser, registerUser };
 }
@@ -117,6 +119,9 @@ async function updateUserPassword(newUserPassword, email) {
 
     let changedUserPassword = await usersDao.updateUserPassword(newPassword, email);
 
+    if(changedUserPassword){
+        outgoingEmail.updateUserPassword(email);
+    }
     return changedUserPassword;
 }
 
