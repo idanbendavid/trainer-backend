@@ -5,7 +5,7 @@ const userRole = require("../models/roles");
 const outgoingEmail = require("../middleware/emails/send-email");
 
 async function getAllComplaints(userId, role) {
-    if(userId !== 1 && role !== userRole[1]){
+    if (userId !== 1 && role !== userRole[1]) {
         throw new ServerError(ErrorType.FORBIDDEN)
     }
 
@@ -14,14 +14,20 @@ async function getAllComplaints(userId, role) {
 }
 
 async function newComplaint(userComplaint) {
-    userComplaint = await publicComplaintDao.newComplaint(userComplaint);  
-    if(userComplaint){
-        outgoingEmail.recievedUserComplaint(userComplaint.email, userComplaint.firstName, userComplaint.lastName);
+
+    let email = userComplaint.email;
+    let firstName = userComplaint.firstName;
+    let lastName = userComplaint.lastName;
+    
+    userComplaint = await publicComplaintDao.newComplaint(userComplaint);
+    
+    if (userComplaint) {
+        outgoingEmail.recievedUserComplaint(email, firstName, lastName);
     }
     return userComplaint;
 }
 
-async function deleteUserComplaint(complaintId){
+async function deleteUserComplaint(complaintId) {
     let deleteComplaint = await publicComplaintDao.deleteUserComplaint(complaintId);
     return deleteComplaint;
 }
