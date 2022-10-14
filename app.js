@@ -13,6 +13,7 @@ const publicComplaintController = require("./controllers/public-complaints-contr
 const errorHandler = require("./middleware/errors/error-handler");
 const loginFilter = require("./middleware/filters/login-filter");
 const fileupload = require("express-fileupload");
+const socketConnection = require('./socket-io');
 
 const server = express();
 
