@@ -36,13 +36,12 @@ router.post("/", (request, response) => {
 });
 
 // delete file
-router.delete('/:filename', async (request, response, next) => {
-    let file = 'files/' + request.params.filename;
-
+router.delete('/:fileName', async (request, response, next) => {
+    let file = 'files/' + request.params.fileName;
     try {
         fs.unlinkSync(file);
 
-        let removeFile = await filesDao.deleteFile(request.params.filename);
+        let removeFile = await filesDao.deleteFile(request.params.fileName);
 
         response.json(removeFile);
     }
