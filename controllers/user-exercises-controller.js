@@ -51,24 +51,6 @@ router.post("/addExercise", async (request, response, next) => {
     }
 })
 
-// change date of exercise by user id and exercise id
-router.patch("/:exerciseId", async (request, response, next) => {
-
-    let userId = jwtToken.decodeToken(request.headers.authorization).userId;
-    let exerciseId = request.params.exerciseId;
-    let exerciseDate = request.body.exerciseDate;
-
-    try {
-        let updatedExerciseDate = await userExercisesLogic.changeExerciseDate(userId, exerciseId, exerciseDate);
-        response.json(updatedExerciseDate);
-    }
-    catch (error) {
-        developmentLogger().error(error.errorType)
-        return next(error);
-    }
-})
-
-
 // delete one exercises
 router.delete("/deleteExercise/:exerciseId", async (request, response, next) => {
 
@@ -85,19 +67,6 @@ router.delete("/deleteExercise/:exerciseId", async (request, response, next) => 
     }
 })
 
-// delete all user exercises
-router.delete("/deleteAllUserExercises", async (request, response, next) => {
 
-    let userId = jwtToken.decodeToken(request.headers.authorization).userId;
-
-    try {
-        let deleteAllExercisesOfUser = await userExercisesLogic.deleteAllUserExercises(userId);
-        response.json(deleteAllExercisesOfUser);
-    }
-    catch (error) {
-        developmentLogger().error(error.errorType)
-        return next(error);
-    }
-})
 
 module.exports = router;

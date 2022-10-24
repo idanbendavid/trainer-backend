@@ -62,23 +62,6 @@ async function userAcquiresExercise(userId, newExercise, exerciseDate, exerciseS
     return addExercise;
 }
 
-// patch - change date of exercise => using userId and exercise id
-
-async function changeExerciseDate(userId, exerciseId, exerciseDate) {
-    let sql = `UPDATE users_exercises SET exerciseDate=? WHERE user_id=? AND exercise_id=?`;
-
-    let parameters = [exerciseDate, userId, exerciseId];
-
-    let newExerciseDate;
-    try {
-        newExerciseDate = await connection.executeWithParameters(sql, parameters);
-    }
-    catch (error) {
-        developmentLogger().debug(error)
-        throw new ServerError(ErrorType.GENERAL_ERROR, error);
-    }
-    return newExerciseDate;
-}
 
 // delete one exercise of user 
 async function deleteOneExerciseOfUser(userId, exerciseId) {
@@ -99,31 +82,9 @@ async function deleteOneExerciseOfUser(userId, exerciseId) {
     return deleteOneUserExercise;
 }
 
-// delete all exercises of a user
-async function deleteAllUserExercises(userId) {
-    let sql = `DELETE FROM users_exercises WHERE user_id=?`;
-
-    let parameters = [userId];
-
-    let deleteAllUserExercises;
-
-    try {
-        deleteAllUserExercises = await connection.executeWithParameters(sql, parameters);
-    }
-    catch (error) {
-        developmentLogger().debug(error)
-        throw new ServerError(ErrorType.GENERAL_ERROR, error)
-    }
-
-    return deleteAllUserExercises;
-}
-
-
 module.exports = {
     getExercisesOfUser,
     getAmountOfExercisesPerDateForUser,
     userAcquiresExercise,
-    changeExerciseDate,
     deleteOneExerciseOfUser,
-    deleteAllUserExercises
 }
