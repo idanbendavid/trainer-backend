@@ -95,24 +95,6 @@ function addUserValidation(newUser) {
     }
 }
 
-// update user email
-async function updateUserEmail(newUserEmail, userId, role) {
-
-    let isEmailExist = await usersDao.isEmailExist(newUserEmail);
-
-    if (isEmailExist) {
-        throw new ServerError(ErrorType.EMAIL_ALREADY_EXIST);
-    }
-
-    if (role === userRole[1]) {
-        throw new ServerError(ErrorType.FORBIDDEN);
-    }
-
-    let changedUserEmail = await usersDao.updateUserEmail(newUserEmail, userId);
-
-    return changedUserEmail;
-}
-
 // update user password
 async function updateUserPassword(newUserPassword, email) {
     newPassword = cryptation.hashPassword(newUserPassword);
@@ -170,8 +152,7 @@ module.exports = {
     getDetailsOfUserById,
     login,
     addNewUser,
-    updateUserEmail,
-    updateUserPassword,
+   updateUserPassword,
     deleteUser,
     checkEmailValidation
 }

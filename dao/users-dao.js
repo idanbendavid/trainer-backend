@@ -91,23 +91,6 @@ async function addNewUser(newUser) {
     return createUser
 }
 
-// patch - edit user email
-async function updateUserEmail(newUserEmail, userId) {
-    let sql = "UPDATE users SET email=? WHERE id=?";
-
-    let parameters = [newUserEmail, userId];
-
-    let changedUserEmail;
-    try {
-        changedUserEmail = await connection.executeWithParameters(sql, parameters);
-    }
-    catch (error) {
-        developmentLogger().debug(error)
-        throw new ServerError(ErrorType.UPDATE_USER, error);
-    }
-    return changedUserEmail
-}
-
 // patch - edit user password
 async function updateUserPassword(newUserPassword, email) {
     let sql = "UPDATE users SET password=? WHERE email=?";
@@ -183,7 +166,6 @@ module.exports = {
     getDetailsOfUserById,
     login,
     addNewUser,
-    updateUserEmail,
     updateUserPassword,
     isEmailExist,
     deleteUser,

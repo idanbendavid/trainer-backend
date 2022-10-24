@@ -81,22 +81,6 @@ router.post("/register", async (request, response, next) => {
     }
 })
 
-// update user email
-router.patch("/changeEmail", async (request, response, next) => {
-
-    let userId = jwtToken.decodeToken(request.headers.authorization).userId;
-    let role = jwtToken.decodeToken(request.headers.authorization).userRole;
-    let newUserEmail = request.body.newUserEmail;
-
-    try {
-        let changedUserEmail = await usersLogic.updateUserEmail(newUserEmail, userId, role);
-        response.json(changedUserEmail);
-    }
-    catch (error) {
-        developmentLogger().error(error.errorType)
-        return next(error);
-    }
-})
 
 // update user password
 router.put("/", async (request, response, next) => {
