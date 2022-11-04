@@ -53,6 +53,12 @@ let ErrorType = {
         httpCode: 457,
         message : "invalid image",
         isShowStackTrace: false
+    },
+    INVALID_TASKS: {
+        id:10,
+        httpCode: 458,
+        message : "invalid task",
+        isShowStackTrace: false
     }
 
 }
