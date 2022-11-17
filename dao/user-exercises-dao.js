@@ -1,7 +1,6 @@
 const connection = require("../db/connection-wrapper");
 const ErrorType = require("../middleware/errors/error-type");
 const ServerError = require("../middleware/errors/server-error");
-const developmentLogger = require("../middleware/logger/dev-logger");
 
 // get exercises of user by user id
 async function getExercisesOfUser(userId) {
@@ -18,7 +17,6 @@ async function getExercisesOfUser(userId) {
         userExercises = await connection.executeWithParameters(sql, parameters);
     }
     catch (error) {
-        developmentLogger().debug(error)
         throw new ServerError(ErrorType.GENERAL_ERROR, error);
     }
     return userExercises;
@@ -38,7 +36,6 @@ async function getAmountOfExercisesPerDateForUser(userId) {
         exercisesPerDate = await connection.executeWithParameters(sql, parameters);
     }
     catch (error) {
-        developmentLogger().debug(error)
         throw new ServerError(ErrorType.GENERAL_ERROR, error);
     }
     return exercisesPerDate;
@@ -56,7 +53,6 @@ async function userAcquiresExercise(userId, newExercise, exerciseDate, exerciseS
         addExercise = await connection.executeWithParameters(sql, parameters);
     }
     catch (error) {
-        developmentLogger().debug(error)
         throw new ServerError(ErrorType.GENERAL_ERROR, error);
     }
     return addExercise;
@@ -75,7 +71,6 @@ async function deleteOneExerciseOfUser(userId, exerciseId) {
         deleteOneUserExercise = await connection.executeWithParameters(sql, parameters);
     }
     catch (error) {
-        developmentLogger().debug(error)
         throw new ServerError(ErrorType.GENERAL_ERROR, error)
     }
 

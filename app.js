@@ -20,15 +20,16 @@ const server = express();
 
 const cors = require("cors");
 
-if (global.config.isDevelopment) {
-    server.use(cors({ origin: ["http://localhost:3000"] }));
-}
+// server.use(cors({
+//     "Access-Control-Allow-Origin" : "http://34.65.141.75:3001"
+// }));
+
+server.use(cors());
+
 
 server.use(fileupload());
 
 const port = process.env.PORT || 3001;
-
-// production settings here
 
 server.use(express.static("files"));
 server.use(express.json());
@@ -43,4 +44,4 @@ server.use(errorHandler);
 server.use(loginFilter);
 
 
-server.listen(port, () => { console.log(`listening on http://localhost:${port}`) })   
+server.listen(port, () => { console.log(`server is listening`) })   

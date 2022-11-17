@@ -2,7 +2,6 @@ const connection = require("../db/connection-wrapper");
 const ErrorType = require("../middleware/errors/error-type");
 const ServerError = require("../middleware/errors/server-error");
 const nodemailer = require("nodemailer");
-const developmentLogger = require("../middleware/logger/dev-logger");
 
 // get
 async function getUsers() {
@@ -13,7 +12,6 @@ async function getUsers() {
         getAllUsers = await connection.execute(sql);
     }
     catch (error) {
-        developmentLogger().debug(error)
         throw new ServerError(ErrorType.GENERAL_ERROR, error);
         // change error type
     }
@@ -31,7 +29,6 @@ async function getDetailsOfUserById(userId) {
         detailsOfSpecificUser = await connection.executeWithParameters(sql, parameters);
     }
     catch (error) {
-        developmentLogger().debug(error)
         throw new ServerError(ErrorType.GENERAL_ERROR, error);
     }
     return detailsOfSpecificUser
@@ -48,12 +45,10 @@ async function login(user) {
         usersLoginResult = await connection.executeWithParameters(sql, parameters);
     }
     catch (error) {
-        developmentLogger().debug(error)
         throw new ServerError(ErrorType.GENERAL_ERROR, JSON.stringify(user), error);
     }
 
     if (usersLoginResult === null || usersLoginResult.length === 0) {
-        developmentLogger().debug(ErrorType.UNAUTHORIZED)
         throw new ServerError(ErrorType.UNAUTHORIZED);
     }
 
@@ -84,7 +79,6 @@ async function addNewUser(newUser) {
         createUser = await connection.executeWithParameters(sql, parameters);
     }
     catch (error) {
-        developmentLogger().debug(error)
         throw new ServerError(ErrorType.GENERAL_ERROR, error);
         // change error type
     }
@@ -102,7 +96,6 @@ async function updateUserPassword(newUserPassword, email) {
         changedUserPassword = await connection.executeWithParameters(sql, parameters);
     }
     catch (error) {
-        developmentLogger().debug(error)
         throw new ServerError(ErrorType.UPDATE_USER, error);
     }
     return changedUserPassword
@@ -123,7 +116,6 @@ async function isEmailExist(email) {
         return emailValidationResult[0];
     }
     catch (error) {
-        developmentLogger().debug(error)
         throw new ServerError(ErrorType.EMAIL_ALREADY_EXIST, error);
     }
 }
@@ -140,7 +132,6 @@ async function deleteUser(userId) {
         deleteSpecificUser = await connection.executeWithParameters(sql, parameters);
     }
     catch (error) {
-        developmentLogger().debug(error)
         throw new ServerError(ErrorType.GENERAL_ERROR, error);
     }
     return deleteSpecificUser
@@ -156,7 +147,6 @@ async function checkEmailValidation(email) {
         return checkEmail[0].email;
     }
     catch (error) {
-        developmentLogger().debug(error)
         throw new ServerError(ErrorType.INVALID_EMAIL, error);
     }
 }

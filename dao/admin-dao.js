@@ -1,7 +1,6 @@
 const connection = require("../db/connection-wrapper");
 const ErrorType = require("../middleware/errors/error-type");
 const ServerError = require("../middleware/errors/server-error");
-const developmentLogger = require("../middleware/logger/dev-logger");
 
 
 async function getTasksOfAdmin() {
@@ -13,7 +12,6 @@ async function getTasksOfAdmin() {
         getComplaints = await connection.execute(sql);
     }
     catch (error) {
-        developmentLogger().error(error)
         throw new ServerError(ErrorType.GENERAL_ERROR, error);
     }
     return getComplaints;

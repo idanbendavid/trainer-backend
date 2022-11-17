@@ -2,7 +2,6 @@ const express = require("express");
 const router = express.Router();
 const jwtToken = require("../middleware/auth/token");
 const adminLogic = require("../logic/admin-logic")
-const developmentLogger = require("../middleware/logger/dev-logger");
 
 
 router.get("/", async (request, response, next) => {
@@ -15,7 +14,6 @@ router.get("/", async (request, response, next) => {
         response.json(getAdminTasks);
     }
     catch (error) {
-        developmentLogger().error(error.errorType)
         return next(error);
     }
 })
@@ -28,7 +26,6 @@ router.post("/", async (request, response, next) => {
         response.json(newTask);
     }
     catch (error) {
-        developmentLogger().error(error.errorType)
         return next(error);
     }
 })

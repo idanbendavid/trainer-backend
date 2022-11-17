@@ -2,7 +2,6 @@ const express = require("express");
 const router = express.Router();
 const jwtToken = require("../middleware/auth/token");
 const publicComplaintsLogic = require("../logic/public-complaint-logic")
-const developmentLogger = require("../middleware/logger/dev-logger");
 
 
 router.get("/", async (request, response, next) => {
@@ -15,7 +14,6 @@ router.get("/", async (request, response, next) => {
         response.json(getComplaints);
     }
     catch (error) {
-        developmentLogger().error(error.errorType)
         return next(error);
     }
 })
@@ -29,7 +27,6 @@ router.post("/", async (request, response, next) => {
         response.json(userComplaint);
     }
     catch (error) {
-        developmentLogger().error(error.errorType)
         return next(error);
     }
 })
@@ -43,7 +40,6 @@ router.delete("/:complaintId", async (request, response, next) => {
         response.json(deleteComplaint)
     }
     catch (error) {
-        developmentLogger().error(error.errorType)
         return next(error)
     }
 })
