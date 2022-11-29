@@ -19,7 +19,7 @@ router.get("/", async (request, response, next) => {
 
 // upload file
 router.post("/", (request, response) => {
-    const newpath = __dirname + "/../files/";
+    const newpath = __dirname + "/files/";
     const file = request.files.file;
     const filename = file.name;
 
@@ -28,7 +28,7 @@ router.post("/", (request, response) => {
             response.status(500).send({ message: "File upload failed", code: 445 });
             return
         }
-        let filePath = `http://34.65.141.75:3001/${filename}`;
+        let filePath = `http://localhost:3001/${filename}`;
 
         filesDao.addFile(filePath, filename);
         response.json(filePath);

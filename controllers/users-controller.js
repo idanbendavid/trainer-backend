@@ -35,7 +35,7 @@ router.get("/specificUser", async (request, response, next) => {
 // for surviving refresh
 router.get("/verify_token", (request, response, next) => {
 
-    let token = request.headers.authorization
+    let token = request.headers.authorization;
 
     let userDetails
     try {

@@ -14,7 +14,7 @@ const adminController = require("./controllers/admin-controller");
 const errorHandler = require("./middleware/errors/error-handler");
 const loginFilter = require("./middleware/filters/login-filter");
 const fileupload = require("express-fileupload");
-const socketConnection = require('./socket-io');
+// const socketConnection = require('./socket-io');
 
 const server = express();
 
@@ -24,7 +24,7 @@ const cors = require("cors");
 //     "Access-Control-Allow-Origin" : "http://34.65.141.75:3001"
 // }));
 
-server.use(cors());
+server.use(cors({ origin: "http://localhost:3000" }));
 
 
 server.use(fileupload());
@@ -44,4 +44,4 @@ server.use(errorHandler);
 server.use(loginFilter);
 
 
-server.listen(port, () => { console.log(`server is listening`) })   
+server.listen(port, () => { console.log(`server is listening`) })

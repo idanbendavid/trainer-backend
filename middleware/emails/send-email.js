@@ -5,7 +5,6 @@ const path = require('path');
 
 const transporter = nodemailer.createTransport(
     config.development.outgoingEmail
-    // using mailtrap as fake email service
 );
 
 const handlebarOptions = {
