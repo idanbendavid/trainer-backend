@@ -6,7 +6,7 @@ const express = require("express");
 const path = require('path');
 
 const usersController = require("./controllers/users-controller");
-const userExercisesController = require("./controllers/user-exercises-controller");
+const usersExercisesController = require("./controllers/users-exercises-controller");
 const filesController = require("./controllers/files-controller");
 const publicComplaintController = require("./controllers/public-complaints-controller");
 const adminController = require("./controllers/admin-controller");
@@ -35,7 +35,7 @@ server.use(express.static("files"));
 server.use(express.json());
 
 server.use("/users", usersController);
-server.use("/userExercises", userExercisesController);
+server.use("/usersExercises", usersExercisesController);
 server.use("/files", filesController);
 server.use("/complaint", publicComplaintController);
 server.use("/adminTasks", adminController);

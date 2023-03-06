@@ -1,6 +1,6 @@
 const express = require("express");
 const router = express.Router();
-const userExercisesLogic = require("../logic/user-exercises-logic");
+const userExercisesLogic = require("../logic/users-exercises-logic");
 const jwtToken = require("../middleware/auth/token");
 
 
@@ -8,6 +8,7 @@ const jwtToken = require("../middleware/auth/token");
 router.get("/exercisesOfUser", async (request, response, next) => {
 
     let userId = jwtToken.decodeToken(request.headers.authorization).userId;
+    
     try {
         let userExercises = await userExercisesLogic.getExercisesOfUser(userId);
         response.json(userExercises);
@@ -17,12 +18,10 @@ router.get("/exercisesOfUser", async (request, response, next) => {
     }
 })
 
-router.get("/amountOfExercises", async (request, response, next) => {
-
-    let userId = jwtToken.decodeToken(request.headers.authorization).userId;
+router.get("/exerciseForContest", async (request, response, next) => {
 
     try {
-        let exercisesPerDate = await userExercisesLogic.getAmountOfExercisesPerDateForUser(userId);
+        let exercisesPerDate = await userExercisesLogic.getExercisesForContest(userId);
         response.json(exercisesPerDate);
     }
     catch (error) {
@@ -34,12 +33,10 @@ router.get("/amountOfExercises", async (request, response, next) => {
 router.post("/addExercise", async (request, response, next) => {
 
     let userId = jwtToken.decodeToken(request.headers.authorization).userId;
-    let newExercise = request.body.newExercise;
-    let exerciseDate = request.body.changedDate;
-    let exercisesStatus = request.body.completed;
+    let userExerciseDetails = request.body;
 
     try {
-        let addExercisesToUser = await userExercisesLogic.userAcquiresExercise(userId, newExercise, exerciseDate, exercisesStatus);
+        let addExercisesToUser = await userExercisesLogic.addUserExercise(userId, userExerciseDetails);
         response.json(addExercisesToUser);
     }
     catch (error) {
@@ -47,14 +44,10 @@ router.post("/addExercise", async (request, response, next) => {
     }
 })
 
-// delete one exercises
-router.delete("/deleteExercise/:exerciseId", async (request, response, next) => {
-
-    let userId = jwtToken.decodeToken(request.headers.authorization).userId;
-    let exerciseId = request.params.exerciseId;
-
+// delete exercises 
+router.delete("/deleteExercise", async (request, response, next) => {
     try {
-        let removeOneExerciseOfUser = await userExercisesLogic.deleteOneExerciseOfUser(userId, exerciseId);
+        let removeOneExerciseOfUser = await userExercisesLogic.deleteExercises();
         response.json(removeOneExerciseOfUser);
     }
     catch (error) {
