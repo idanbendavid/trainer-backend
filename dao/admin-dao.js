@@ -26,22 +26,22 @@ async function addNewTasks(newTask) {
         newTask = await connection.executeWithParameters(sql, parameters);
     }
     catch (error) {
-        throw new ServerError(ErrorType.GENERAL_ERROR, error);
+        throw new ServerError(ErrorType.INVALID_TASKS, JSON.stringify(newTask), error);
     }
     return newTask;
 }
 
-async function deleteTask(task){
+async function deleteTask(task) {
     let sql = `DELETE FROM admin_tasks WHERE task=?`;
 
     let parameters = [task];
 
-    let deleteTask; 
+    let deleteTask;
 
-    try{
-        deleteTask = await connection.executeWithParameters(sql,parameters);
+    try {
+        deleteTask = await connection.executeWithParameters(sql, parameters);
     }
-    catch(error){
+    catch (error) {
         throw new ServerError(ErrorType.GENERAL_ERROR, error)
     }
     return deleteTask;

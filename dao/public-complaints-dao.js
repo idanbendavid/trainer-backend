@@ -28,7 +28,7 @@ async function newComplaint(userComplaint) {
         newComplaint = await connection.executeWithParameters(sql, parameters);
     }
     catch (error) {
-        throw new ServerError(ErrorType.GENERAL_ERROR, error);
+        throw new ServerError(ErrorType.INVALID_TASKS,JSON.stringify(userComplaint), error);
     }
     return newComplaint;
 }
@@ -44,7 +44,7 @@ async function deleteUserComplaint(complaintId){
         deleteComplaint = await connection.executeWithParameters(sql,parameters);
     }
     catch(error){
-        throw new ServerError(ErrorType.GENERAL_ERROR, error)
+        throw new ServerError(ErrorType.INVALID_TASKS,JSON.stringify(complaintId), error)
     }
     return deleteComplaint
 }

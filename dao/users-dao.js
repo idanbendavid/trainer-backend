@@ -79,7 +79,7 @@ async function addNewUser(newUser) {
         createUser = await connection.executeWithParameters(sql, parameters);
     }
     catch (error) {
-        throw new ServerError(ErrorType.GENERAL_ERROR, error);
+        throw new ServerError(ErrorType.GENERAL_ERROR, JSON.stringify(newUser), error);
         // change error type
     }
     return createUser
@@ -96,7 +96,7 @@ async function updateUserPassword(newUserPassword, email) {
         changedUserPassword = await connection.executeWithParameters(sql, parameters);
     }
     catch (error) {
-        throw new ServerError(ErrorType.UPDATE_USER, error);
+        throw new ServerError(ErrorType.UPDATE_USER,JSON.stringify(email), error);
     }
     return changedUserPassword
 }
