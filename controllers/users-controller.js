@@ -18,20 +18,6 @@ router.get("/allUsers", async (request, response, next) => {
     }
 })
 
-// get details of user by id => using token not query 
-router.get("/specificUser", async (request, response, next) => {
-
-    let userId = jwtToken.decodeToken(request.headers.authorization).userId;
-
-    try {
-        userId = await usersLogic.getDetailsOfUserById(userId);
-        response.json(userId)
-    }
-    catch (error) {
-        return next(error);
-    }
-})
-
 // for surviving refresh
 router.get("/verify_token", (request, response, next) => {
 
@@ -91,25 +77,9 @@ router.put("/", async (request, response, next) => {
     }
 })
 
-// delete user - only admin can delete user
-router.delete("/:userId", async (request, response, next) => {
+router.patch("/checkEmail", async (request, response, next) => {
 
-    let userId = request.params.userId;
-
-    let adminVerification = jwtToken.decodeToken(request.headers.authorization).userRole;
-
-    try {
-        let removeUser = await usersLogic.deleteUser(userId, adminVerification);
-        response.json(removeUser);
-    }
-    catch (error) {
-        return next(error);
-    }
-})
-
-router.get("/checkEmail/:checkEmail", async (request, response, next) => {
-
-    let EmailValidition = request.params.checkEmail;
+    let EmailValidition = request.body.email;
 
     try {
         checkEmail = await usersLogic.checkEmailValidation(EmailValidition);

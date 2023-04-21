@@ -18,22 +18,6 @@ async function getUsers() {
     return getAllUsers
 }
 
-// get details of user by id
-async function getDetailsOfUserById(userId) {
-    let sql = "SELECT * FROM users WHERE id=?";
-
-    let parameters = [userId]
-
-    let detailsOfSpecificUser;
-    try {
-        detailsOfSpecificUser = await connection.executeWithParameters(sql, parameters);
-    }
-    catch (error) {
-        throw new ServerError(ErrorType.GENERAL_ERROR, error);
-    }
-    return detailsOfSpecificUser
-}
-
 // post - login
 async function login(user) {
     let sql = "SELECT * FROM users WHERE email =? AND password =?";
@@ -120,23 +104,6 @@ async function isEmailExist(email) {
     }
 }
 
-// delete user
-async function deleteUser(userId) {
-    let sql = "DELETE FROM users WHERE id=?";
-
-    let parameters = [userId];
-
-    let deleteSpecificUser;
-
-    try {
-        deleteSpecificUser = await connection.executeWithParameters(sql, parameters);
-    }
-    catch (error) {
-        throw new ServerError(ErrorType.GENERAL_ERROR, error);
-    }
-    return deleteSpecificUser
-}
-
 async function checkEmailValidation(email) {
     let sql = `SELECT email FROM users where email=?`;
 
@@ -153,11 +120,9 @@ async function checkEmailValidation(email) {
 
 module.exports = {
     getUsers,
-    getDetailsOfUserById,
     login,
     addNewUser,
     updateUserPassword,
     isEmailExist,
-    deleteUser,
     checkEmailValidation
 }

@@ -17,12 +17,6 @@ async function getUsers(role) {
     return getAllUsers;
 }
 
-// get details of user by id
-async function getDetailsOfUserById(userId) {
-    getUserById = await usersDao.getDetailsOfUserById(userId);
-    return getUserById;
-}
-
 // login
 async function login(loginDetails) {
 
@@ -30,11 +24,11 @@ async function login(loginDetails) {
 
     loginDetails.password = cryptation.hashPassword(loginDetails.password);
 
-    loginDetails = await usersDao.login(loginDetails);
+    let user = await usersDao.login(loginDetails);
 
-    let token = jwtToken.createToken(loginDetails);
+    let token = jwtToken.createToken(user);
 
-    return { token: token, loginDetails }
+    return { token, user }
 }
 
 // login validation
@@ -77,7 +71,7 @@ async function addNewUser(newUser) {
         outgoingEmail.sendRegisterEmail(newUser.email);
     }
 
-    return { token, newUser, registerUser };
+    return { token, user: tokenDetails };
 }
 
 // validation of add user
@@ -89,10 +83,7 @@ function addUserValidation(newUser) {
         throw new ServerError(ErrorType.INVALID_PASSWORD);
     }
 
-    // validate user role
-    if (newUser.user_role === userRole[1]) {
-        throw new ServerError(ErrorType.FORBIDDEN);
-    }
+    newUser.userRole = userRole[2]
 }
 
 // update user password
@@ -101,40 +92,10 @@ async function updateUserPassword(newUserPassword, email) {
 
     let changedUserPassword = await usersDao.updateUserPassword(newPassword, email);
 
-    if(changedUserPassword){
+    if (changedUserPassword) {
         outgoingEmail.updateUserPassword(email);
     }
     return changedUserPassword;
-}
-
-// delete user
-async function deleteUser(userId, adminVerification) {
-
-    deleteUserValidation(userId, adminVerification);
-
-    let removeUser = {
-        removeExercisesOfUser: await userExercisesDao.deleteAllUserExercises(userId),
-        goodbeyUser: await usersDao.deleteUser(userId)
-    };
-
-    return removeUser;
-}
-
-function deleteUserValidation(userId, adminVerification) {
-    // check if the admin is making delete request
-    if (adminVerification !== userRole[1]) {
-        throw new ServerError(ErrorType.UNAUTHORIZED);
-    }
-
-    // if the id of the user we want to delete does not exists
-    if (!userId) {
-        throw new ServerError(ErrorType.UNAUTHORIZED);
-    }
-
-    // if user to delete is the admin or the recieved id is anything but number
-    if (userId == 1 || isNaN(userId) === true) {
-        throw new ServerError(ErrorType.FORBIDDEN);
-    }
 }
 
 async function checkEmailValidation(EmailValidition) {
@@ -149,10 +110,8 @@ async function checkEmailValidation(EmailValidition) {
 
 module.exports = {
     getUsers,
-    getDetailsOfUserById,
     login,
     addNewUser,
-   updateUserPassword,
-    deleteUser,
+    updateUserPassword,
     checkEmailValidation
 }
