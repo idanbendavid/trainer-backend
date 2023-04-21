@@ -4,7 +4,7 @@ const ServerError = require("../middleware/errors/server-error");
 
 // get exercises of user by user id - for user profile
 async function getExercisesOfUser(userId) {
-    let sql = `SELECT ue.exerciseName, ue.type, ue.numberOfSets, ue.numberOfRepeats, ue.notes, ue.exerciseDate, ue.duration
+    let sql = `SELECT ue.id, ue.exerciseName, ue.type, ue.numberOfSets, ue.numberOfRepeats, ue.notes, ue.exerciseDate, ue.duration
     FROM users u LEFT JOIN users_exercises ue 
     ON u.id = ue.userId
     WHERE ue.userId=?`;
@@ -25,18 +25,19 @@ async function getExercisesForContest() {
     let sql = `SELECT CONCAT(u.first_name," ",u.last_name) AS 'name',COUNT(ue.exerciseName) AS 'completed exercises'
     FROM users u LEFT JOIN users_exercises ue 
     ON u.id = ue.userId
+    WHERE u.id = ue.userId
     GROUP BY name`;
 
     // optional - subquery to calc how many times in a week the user trained for bouns points in the contest table
 
-    let exercisesPerDate;
+    let exerciseForContest;
     try {
-        exercisesPerDate = await connection.execute(sql);
+        exerciseForContest = await connection.execute(sql);
     }
     catch (error) {
         throw new ServerError(ErrorType.GENERAL_ERROR, error);
     }
-    return exercisesPerDate;
+    return exerciseForContest;
 }
 
 

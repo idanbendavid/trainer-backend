@@ -18,11 +18,11 @@ router.get("/exercisesOfUser", async (request, response, next) => {
     }
 })
 
-router.get("/exerciseForContest", async (request, response, next) => {
+router.get("/contest", async (request, response, next) => {
 
     try {
-        let exercisesPerDate = await userExercisesLogic.getExercisesForContest(userId);
-        response.json(exercisesPerDate);
+        let exerciseForContest = await userExercisesLogic.getExercisesForContest();
+        response.json(exerciseForContest);
     }
     catch (error) {
         return next(error);

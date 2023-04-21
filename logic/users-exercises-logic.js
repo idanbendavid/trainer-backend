@@ -12,8 +12,8 @@ async function getExercisesOfUser(userId) {
 }
 
 async function getExercisesForContest() {
-    let exercisesPerDate = await userExercisesDao.getExercisesForContest();
-    return exercisesPerDate;
+    let exerciseForContest = await userExercisesDao.getExercisesForContest();
+    return exerciseForContest;
 }
 
 async function addUserExercise(userId, userExerciseDetails) {
