@@ -5,7 +5,7 @@ const nodemailer = require("nodemailer");
 
 // get
 async function getUsers() {
-    let sql = `SELECT id, first_name, last_name, birth_date, user_role, email FROM users where user_role NOT LIKE '%admin%'`;
+    let sql = `SELECT id, firstName, lastName, birthDate, userRole, email FROM users where userRole NOT LIKE '%admin%'`;
 
     let getAllUsers;
     try {
@@ -36,23 +36,16 @@ async function login(user) {
         throw new ServerError(ErrorType.UNAUTHORIZED);
     }
 
-    console.log("user is connected");
+    const { password, ...loggedIn } = usersLoginResult[0]
 
-    let loggedIn = {
-        email: usersLoginResult[0].email,
-        userId: usersLoginResult[0].id,
-        userRole: usersLoginResult[0].user_role,
-        firstName: usersLoginResult[0].first_name,
-        lastName: usersLoginResult[0].last_name,
-        birthDate: usersLoginResult[0].birth_date
-    }
+    console.log("user is connected");
 
     return loggedIn;
 }
 
 // post - register
 async function addNewUser(newUser) {
-    let sql = "INSERT INTO users (first_name,last_name,birth_date,user_role,email,password) VALUES(?,?,?,?,?,?)";
+    let sql = "INSERT INTO users (firstName,lastName,birthDate,userRole,email,password) VALUES(?,?,?,?,?,?)";
 
     let parameters = [newUser.firstName, newUser.lastName, newUser.birthDate,
     newUser.userRole, newUser.email, newUser.password];
@@ -80,7 +73,7 @@ async function updateUserPassword(newUserPassword, email) {
         changedUserPassword = await connection.executeWithParameters(sql, parameters);
     }
     catch (error) {
-        throw new ServerError(ErrorType.UPDATE_USER,JSON.stringify(email), error);
+        throw new ServerError(ErrorType.UPDATE_USER, JSON.stringify(email), error);
     }
     return changedUserPassword
 }

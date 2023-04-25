@@ -13,7 +13,7 @@ async function getUsers(role) {
         throw new ServerError(ErrorType.UNAUTHORIZED);
     }
 
-    getAllUsers = await usersDao.getUsers();
+    let getAllUsers = await usersDao.getUsers();
     return getAllUsers;
 }
 
@@ -26,9 +26,9 @@ async function login(loginDetails) {
 
     let user = await usersDao.login(loginDetails);
 
-    let token = jwtToken.createToken(user);
+    user.token = jwtToken.createToken(user);
 
-    return { token, user }
+    return user
 }
 
 // login validation
@@ -57,21 +57,20 @@ async function addNewUser(newUser) {
     let registerUser = await usersDao.addNewUser(newUser);
 
     let tokenDetails = {
-        userId: registerUser.insertId,
+        id: registerUser.insertId,
         firstName: newUser.firstName,
         birthDate: newUser.birthDate,
         userRole: newUser.userRole,
         lastName: newUser.lastName,
         email: newUser.email
     }
+    newUser.id = registerUser.insertId;
+    newUser.token = jwtToken.createToken(tokenDetails);
 
-    let token = jwtToken.createToken(tokenDetails);
-
-    if (token) {
+    if (newUser.token) {
         outgoingEmail.sendRegisterEmail(newUser.email);
     }
-
-    return { token, user: tokenDetails };
+    return newUser;
 }
 
 // validation of add user
