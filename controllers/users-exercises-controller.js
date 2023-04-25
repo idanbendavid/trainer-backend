@@ -7,7 +7,7 @@ const jwtToken = require("../middleware/auth/token");
 // get exercises of user by user id
 router.get("/exercisesOfUser", async (request, response, next) => {
 
-    let userId = jwtToken.decodeToken(request.headers.authorization).userId;
+    let userId = jwtToken.decodeToken(request.headers.authorization).id;
     
     try {
         let userExercises = await userExercisesLogic.getExercisesOfUser(userId);
@@ -32,7 +32,7 @@ router.get("/contest", async (request, response, next) => {
 // add exercise to user 
 router.post("/addExercise", async (request, response, next) => {
 
-    let userId = jwtToken.decodeToken(request.headers.authorization).userId;
+    let userId = jwtToken.decodeToken(request.headers.authorization).id;
     let userExerciseDetails = request.body;
 
     try {

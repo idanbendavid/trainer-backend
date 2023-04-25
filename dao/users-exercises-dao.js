@@ -22,7 +22,7 @@ async function getExercisesOfUser(userId) {
 }
 
 async function getExercisesForContest() {
-    let sql = `SELECT CONCAT(u.first_name," ",u.last_name) AS 'name',COUNT(ue.exerciseName) AS 'completed exercises'
+    let sql = `SELECT CONCAT(u.firstName," ",u.lastName) AS 'name',COUNT(ue.exerciseName) AS 'completed exercises'
     FROM users u LEFT JOIN users_exercises ue 
     ON u.id = ue.userId
     WHERE u.id = ue.userId

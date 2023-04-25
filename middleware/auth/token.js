@@ -10,8 +10,8 @@ function createToken(user) {
     }
 
     const payload = {
-        userId: user.userId,
-        first_name: user.firstName,
+        id: user.id,
+        firstNme: user.firstName,
         lastName: user.lastName,
         userRole: user.userRole,
         birthDate: user.birthDate,
@@ -32,8 +32,8 @@ function decodeToken(token) {
     let verify = jwt.verify(token, config.secret);
 
     let userDetails = {
-        userId: verify.userId,
-        firstName: verify.first_name,
+        id: verify.id,
+        firstName: verify.firstNme,
         lastName: verify.lastName,
         userRole: verify.userRole,
         birthDate: verify.birthDate,

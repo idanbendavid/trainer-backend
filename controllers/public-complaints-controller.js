@@ -6,7 +6,7 @@ const publicComplaintsLogic = require("../logic/public-complaint-logic")
 
 router.get("/", async (request, response, next) => {
 
-    let userId = jwtToken.decodeToken(request.headers.authorization).userId;
+    let userId = jwtToken.decodeToken(request.headers.authorization).id;
     let role = jwtToken.decodeToken(request.headers.authorization).userRole;
 
     try {
