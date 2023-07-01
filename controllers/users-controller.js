@@ -79,7 +79,7 @@ router.put("/", async (request, response, next) => {
 
 router.patch("/checkEmail", async (request, response, next) => {
 
-    let EmailValidition = request.body.email;
+    let EmailValidition = request.body.checkEmail;
 
     try {
         checkEmail = await usersLogic.checkEmailValidation(EmailValidition);

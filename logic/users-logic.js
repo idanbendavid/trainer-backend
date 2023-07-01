@@ -1,5 +1,4 @@
 const usersDao = require("../dao/users-dao");
-const userExercisesDao = require("../dao/users-exercises-dao");
 const userRole = require("../models/roles");
 const cryptation = require("../middleware/crypto/crypto");
 const jwtToken = require("../middleware/auth/token");

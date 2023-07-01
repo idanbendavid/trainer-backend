@@ -2,7 +2,6 @@ const express = require("express");
 const router = express.Router();
 const filesDao = require("../dao/files-dao");
 const fs = require('fs');
-const outgoingEmail = require("../middleware/emails/send-email");
 
 // get files
 router.get("/", async (request, response, next) => {
@@ -19,7 +18,7 @@ router.get("/", async (request, response, next) => {
 
 // upload file
 router.post("/", (request, response) => {
-    const newpath = __dirname + "/files/";
+    const newpath = "files/";
     const file = request.files.file;
     const filename = file.name;
 

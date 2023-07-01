@@ -1,7 +1,6 @@
 const connection = require("../db/connection-wrapper");
 const ErrorType = require("../middleware/errors/error-type");
 const ServerError = require("../middleware/errors/server-error");
-const nodemailer = require("nodemailer");
 
 // get
 async function getUsers() {
