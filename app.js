@@ -18,8 +18,9 @@ const server = express();
 
 const cors = require("cors");
 
-server.use(cors({ origin: "http://localhost:3000" }));
-
+server.use(cors({
+        "Access-Control-Allow-Origin" : "https://traininglog.onrender.com"
+    }));
 
 server.use(fileupload());
 
