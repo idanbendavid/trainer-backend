@@ -19,7 +19,7 @@ const server = express();
 const cors = require("cors");
 
 server.use(cors({
-    "origin": "https://traininglog.onrender.com/",
+    "origin": "https://traininglog.onrender.com",
     "methods": "GET,PUT,PATCH,POST,DELETE",
     "optionsSuccessStatus": 204,
     "credentials": true
