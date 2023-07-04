@@ -19,8 +19,12 @@ const server = express();
 const cors = require("cors");
 
 server.use(cors({
-        "Access-Control-Allow-Origin" : "https://traininglog.onrender.com"
-    }));
+    "Access-Control-Allow-Origin": "https://traininglog.onrender.com"
+}));
+
+app.get('*', (req, res) => {
+    res.sendFile(path.join(__dirname, 'https://traininglog.onrender.com/index.html'));
+});
 
 server.use(fileupload());
 
