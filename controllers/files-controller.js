@@ -21,7 +21,7 @@ router.post("/", (request, response) => {
     const newpath = "files/";
     const file = request.files.file;
     const filename = file.name;
-
+    console.log(file)
     file.mv(`${newpath}${filename}`, (err) => {
         if (err) {
             response.status(500).send({ message: "File upload failed", code: 445 });

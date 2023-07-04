@@ -41,7 +41,7 @@ server.use(errorHandler);
 server.use(loginFilter);
 
 server.get('*', (req, res) => {
-    res.sendFile(path.join(__dirname, "https://traininglog.onrender.com/index.html"));
+    res.sendFile(path.join(__dirname, "https://traininglog.onrender.com"));
 });
 
 server.listen(port, () => { console.log(`server is listening`) })
