@@ -25,10 +25,6 @@ server.use(cors({
     "credentials": true
 }));
 
-server.get('*', (req, res) => {
-    res.sendFile(path.join(__dirname, "https://traininglog.onrender.com/index.html"));
-});
-
 server.use(fileupload());
 
 const port = process.env.PORT || 3001;
@@ -44,5 +40,8 @@ server.use("/complaint", publicComplaintController);
 server.use(errorHandler);
 server.use(loginFilter);
 
+server.get('*', (req, res) => {
+    res.sendFile(path.join(__dirname, "https://traininglog.onrender.com/index.html"));
+});
 
 server.listen(port, () => { console.log(`server is listening`) })
