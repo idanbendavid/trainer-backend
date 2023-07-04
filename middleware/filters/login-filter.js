@@ -1,9 +1,9 @@
-const { expressJwt } = require("express-jwt");
+const { expressJwt: jwt } = require("express-jwt");
 const config = require("../../config.json");
 
 
 function loginFilter() {
-    return expressJwt({ secret: config.secret, algorithms: ["HS256"] }).unless({
+    return jwt({ secret: config.secret, algorithms: ["HS256"] }).unless({
         path: [
             { url: "/users/register", method: "POST"},
             { url: "/users/login", method: "POST" },
