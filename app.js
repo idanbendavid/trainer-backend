@@ -40,7 +40,7 @@ server.use("/complaint", publicComplaintController);
 server.use(errorHandler);
 server.use(loginFilter);
 
-app.get('*', (req, res) => {
+server.get('*', (req, res) => {
     res.sendFile(path.join('https://traininglog.onrender.com'));
 });
 
