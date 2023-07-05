@@ -40,5 +40,8 @@ server.use("/complaint", publicComplaintController);
 server.use(errorHandler);
 server.use(loginFilter);
 
+app.get('*', (req, res) => {
+    res.sendFile(path.join('https://traininglog.onrender.com'));
+});
 
 server.listen(port, () => { console.log(`server is listening`) })
