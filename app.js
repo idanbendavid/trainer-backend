@@ -39,7 +39,7 @@ server.use("/complaint", publicComplaintController);
 
 
 server.get('*', (req, res) => {
-    res.sendFile('https://traininglog.onrender.com', express.static(path.join(__dirname, 'public')));
+    server.use('https://traininglog.onrender.com', express.static(path.join(__dirname, 'public')));
 });
 
 server.use(errorHandler);
