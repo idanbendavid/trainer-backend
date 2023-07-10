@@ -39,7 +39,7 @@ server.use("/complaint", publicComplaintController);
 
 
 server.get('*', (req, res) => {
-    res.sendFile(path.join('https://traininglog.onrender.com'));
+    res.sendFile(path.join(__dirname, 'https://traininglog.onrender.com'));
 });
 
 server.use(errorHandler);
