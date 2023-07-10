@@ -37,11 +37,12 @@ server.use("/usersExercises", usersExercisesController);
 server.use("/files", filesController);
 server.use("/complaint", publicComplaintController);
 
-server.use(errorHandler);
-server.use(loginFilter);
 
 server.get('*', (req, res) => {
     res.sendFile(path.join('https://traininglog.onrender.com'));
 });
+
+server.use(errorHandler);
+server.use(loginFilter);
 
 server.listen(port, () => { console.log(`server is listening`) })

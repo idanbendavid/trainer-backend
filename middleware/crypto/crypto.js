@@ -1,4 +1,4 @@
-const crypto = require("crypto");
+const crypto = require("node:crypto");
 const ErrorType = require("../errors/error-type");
 const ServerError = require("../errors/server-error");
 
