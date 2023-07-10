@@ -39,10 +39,10 @@ server.use("/complaint", publicComplaintController);
 
 
 server.get('*', (req, res) => {
-    res.sendFile('https://traininglog.onrender.com');
+    res.sendFile(path.join('https://traininglog.onrender.com', __dirname));
 });
 
 server.use(errorHandler);
 server.use(loginFilter);
-
+    
 server.listen(port, () => { console.log(`server is listening`) })
