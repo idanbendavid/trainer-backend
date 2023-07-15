@@ -18,10 +18,14 @@ router.get("/", async (request, response, next) => {
 
 // upload file
 router.post("/", (request, response) => {
-    const newpath = `/files/`;
+    const newpath = `files/`;
     const file = request.files.file;
     const filename = file.name;
-    console.log(file)
+
+    if (!fs.existsSync(newpath)){
+        fs.mkdirSync(newpath);
+    }
+
     file.mv(`${newpath}${filename}`, (err) => {
         if (err) {
             console.log(err)
