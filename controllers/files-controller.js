@@ -18,13 +18,14 @@ router.get("/", async (request, response, next) => {
 
 // upload file
 router.post("/", (request, response) => {
-    const newpath = `https://traininglogserver.onrender.com/files/`;
+    const newpath = `/files/`;
     const file = request.files.file;
     const filename = file.name;
     console.log(file)
-    file.mv(`${newpath}${filename}`, (error) => {
-        if (error) {
-            response.status(500).send({ message: "File upload failed", code: 445, err });
+    file.mv(`${newpath}${filename}`, (err) => {
+        if (err) {
+            console.log(err)
+            response.status(500).send({ message: "File upload failed", code: 445 });
             return
         }
         let filePath = `https://traininglogserver.onrender.com/${filename}`;
