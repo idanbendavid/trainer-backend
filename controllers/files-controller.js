@@ -22,12 +22,9 @@ router.post("/", (request, response) => {
     const file = request.files.file;
     const filename = file.name;
     console.log(file)
-    file.mv(`${newpath}${filename}`, (err) => {
-        console.log(newpath,"path")
-        console.log(filename,"name")
-        console.log(file,"file")
-        if (err) {
-            response.status(500).send({ message: "File upload failed", code: 445 });
+    file.mv(`${newpath}${filename}`, (error) => {
+        if (error) {
+            response.status(500).send({ message: "File upload failed", code: 445, err });
             return
         }
         let filePath = `https://traininglogserver.onrender.com/${filename}`;
