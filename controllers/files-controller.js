@@ -18,7 +18,7 @@ router.get("/", async (request, response, next) => {
 
 // upload file
 router.post("/", (request, response) => {
-    const newpath = "files/";
+    const newpath = `https://traininglogserver.onrender.com/files/`;
     const file = request.files.file;
     const filename = file.name;
     console.log(file)
