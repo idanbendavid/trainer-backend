@@ -33,12 +33,8 @@ router.post("/", (request, response) => {
             return
         }
         let filePath = `https://traininglogserver.onrender.com/files/${filename}`;
-
-        fs.appendFile(newpath, { file, filePath }, (err) => {
-            if (err) throw err;
-            console.log(`uploaded file saved`);
-        })
         
+        fs.writeFile(newpath, { file, filePath })
         filesDao.addFile(filePath, filename);
         response.json(filePath);
     });
