@@ -22,7 +22,7 @@ router.post("/", (request, response) => {
     const file = request.files.file;
     const filename = file.name;
 
-    if (!fs.existsSync(newpath)){
+    if (!fs.existsSync(newpath)) {
         fs.mkdirSync(newpath);
     }
 
@@ -34,6 +34,11 @@ router.post("/", (request, response) => {
         }
         let filePath = `https://traininglogserver.onrender.com/files/${filename}`;
 
+        fs.appendFile(newpath, { file, filePath }, (err) => {
+            if (err) throw err;
+            console.log(`uploaded file saved`);
+        })
+        
         filesDao.addFile(filePath, filename);
         response.json(filePath);
     });
