@@ -1,7 +1,6 @@
 const connection = require("../db/connection-wrapper");
 const ErrorType = require("../middleware/errors/error-type");
 const ServerError = require("../middleware/errors/server-error");
-const fs = require('fs');
 
 async function getFiles() {
     let sql = `SELECT * FROM files`;
@@ -9,10 +8,6 @@ async function getFiles() {
     let files;
     try {
         files = await connection.execute(sql);
-        if(files){
-            let images = await fs.promises.readdir(files.file_path)
-            return images;
-        }
     }
     catch (error) {
         throw new ServerError(ErrorType.GENERAL_ERROR);
