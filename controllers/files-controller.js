@@ -9,6 +9,9 @@ router.get("/", async (request, response, next) => {
 
     try {
         files = await filesDao.getFiles();
+        if(files){
+            response.send(fs.readFile("files"));
+        }
         response.json(files);
     }
     catch (error) {
