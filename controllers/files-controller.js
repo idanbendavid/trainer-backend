@@ -18,7 +18,7 @@ router.get("/", async (request, response, next) => {
 
 // upload file
 router.post("/", (request, response) => {
-    const newpath = `files/`;
+    const newpath = `files`;
     const file = request.files.file;
     const filename = file.name;
 
@@ -26,7 +26,7 @@ router.post("/", (request, response) => {
         fs.mkdirSync(newpath);
     }
 
-    file.mv(`${newpath}${filename}`, (err) => {
+    file.mv(`${newpath}/${filename}`, (err) => {
         if (err) {
             console.log(err)
             response.status(500).send({ message: "File upload failed", code: 445 });
@@ -34,7 +34,6 @@ router.post("/", (request, response) => {
         }
         let filePath = `https://traininglogserver.onrender.com/files/${filename}`;
         
-        fs.writeFile(newpath, { file, filePath })
         filesDao.addFile(filePath, filename);
         response.json(filePath);
     });
