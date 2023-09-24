@@ -32,7 +32,7 @@ router.post("/", (request, response) => {
             response.status(500).send({ message: "File upload failed", code: 445 });
             return
         }
-        let filePath = `https://traininglogserver.onrender.com/files/${filename}`;
+        let filePath = `${request.url}/files/${filename}`;
         
         filesDao.addFile(filePath, filename);
         response.json(filePath);
