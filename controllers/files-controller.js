@@ -18,23 +18,18 @@ router.get("/", async (request, response, next) => {
 
 // upload file
 router.post("/", (request, response) => {
-    const newpath = `files`;
-    console.log(request.url, '22')
     const file = request.files.file;
+    console.log(request.headers.host, '22')
     const filename = file.name;
 
-    if (!fs.existsSync(newpath)) {
-        fs.mkdirSync(newpath);
-    }
-
-    file.mv(`${newpath}/${filename}`, (err) => {
+    file.mv(`${filename}`, (err) => {
         if (err) {
             console.log(err)
             response.status(500).send({ message: "File upload failed", code: 445 });
             return
         }
         // let filePath = `${request.url}/files/${filename}`;
-        let filePath = new URL(`https://${request.headers.host}/files/${filename}`);
+        let filePath = new URL(`${request.headers.host}/${filename}`);
         console.log(filePath,'file path')
 
         
