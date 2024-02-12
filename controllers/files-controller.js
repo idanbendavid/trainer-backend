@@ -19,7 +19,6 @@ router.get("/", async (request, response, next) => {
 // upload file
 router.post("/", (request, response) => {
     const file = request.files.file;
-    console.log(request.headers.host, '22')
     const filename = file.name;
 
     file.mv(`${filename}`, (err) => {
@@ -29,7 +28,7 @@ router.post("/", (request, response) => {
             return
         }
         // let filePath = `${request.url}/files/${filename}`;
-        let filePath = new URL(`${request.headers.host}/${filename}`);
+        let filePath = new URL(`https://${request.headers.host}/${filename}`);
         console.log(filePath,'file path')
 
         
