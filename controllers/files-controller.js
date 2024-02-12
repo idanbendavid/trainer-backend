@@ -18,19 +18,21 @@ router.get("/", async (request, response, next) => {
 
 // upload file
 router.post("/", (request, response) => {
+    const newpath = `files`;
     const file = request.files.file;
     const filename = file.name;
 
-    file.mv(`${filename}`, (err) => {
+    if (!fs.existsSync(newpath)) {
+        fs.mkdirSync(newpath);
+    }
+
+    file.mv(`${newpath}/${filename}`, (err) => {
         if (err) {
             console.log(err)
             response.status(500).send({ message: "File upload failed", code: 445 });
             return
         }
-        // let filePath = `${request.url}/files/${filename}`;
-        let filePath = new URL(`https://${request.headers.host}/${filename}`);
-        console.log(filePath,'file path')
-
+        let filePath = `https://${request.headers.host}/files/${filename}`;
         
         filesDao.addFile(filePath, filename);
         response.json(filePath);

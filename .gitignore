@@ -3,5 +3,5 @@ node_modules
 .env
 config.json
 logs/
-*.jpg
-*.png
+files/*.jpg
+files/*.png
