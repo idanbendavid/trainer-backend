@@ -19,6 +19,7 @@ router.get("/", async (request, response, next) => {
 // upload file
 router.post("/", (request, response) => {
     const newpath = `files`;
+    console.log(request.url, 'url')
     const file = request.files.file;
     const filename = file.name;
 
@@ -32,7 +33,10 @@ router.post("/", (request, response) => {
             response.status(500).send({ message: "File upload failed", code: 445 });
             return
         }
-        let filePath = `${request.url}/files/${filename}`;
+        // let filePath = `${request.url}/files/${filename}`;
+        let filePath = new URL(`https://${request.url}/files/${filename}`);
+        console.log(filePath,'file path')
+
         
         filesDao.addFile(filePath, filename);
         response.json(filePath);
